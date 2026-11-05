@@ -22,7 +22,7 @@
 
 ## 導入手順
 
-1. `plugins/` に `vcmc-menu-1.0.0.jar` を入れます。
+1. [Releases](../../releases) から `vcmc-menu-<バージョン>.jar` をダウンロードして、`plugins/` に入れます。
 2. サーバーを起動します。`plugins/vcmc-menu/` に `menu.yml` と `messages.yml` が作られます。
 
 ## コマンドと権限
@@ -171,3 +171,7 @@ Java 25 が必要です。
 ```
 
 `build/libs/vcmc-menu-1.0.0.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
+
+## リリース
+
+`build.gradle.kts` の `version` を上げてコミットし、`v<バージョン>` のタグを push してください。GitHub Actions がテストとビルドを実行して、Releases に jar を載せます。タグと `version` が違うときは失敗します。
