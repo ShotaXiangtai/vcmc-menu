@@ -33,21 +33,24 @@ class DefaultMenuTest {
         val expected = listOf(
             // https://www.vcmc.jp/commands.html（/voteshop は /vote shop の省略形なので除く）
             "hub", "sit", "lay", "crawl", "spin", "co i", "gchest",
-            "bolt lock", "bolt lock public", "bolt lock display", "bolt lock deposit", "bolt lock withdrawal",
-            "bolt unlock", "bolt info",
-            "bolt edit add {player}", "bolt edit remove {player}",
-            "bolt modify add normal player {player}", "bolt modify remove normal player {player}",
-            "bolt trust add player {player}", "bolt trust remove player {player}",
-            "bolt transfer {player}",
-            "bolt group create {group}", "bolt group add {group} {player}", "bolt group remove {group} {player}",
-            "bolt group list {group}", "bolt group delete {group}",
-            "bolt mode persist", "bolt mode nolock", "bolt mode nospam",
-            "bolt password {password}", "bolt help", "bolt help {command}",
             "stream on", "stream off", "rec on", "rec off",
             "vote", "votegui", "vote shop", "vote total", "vote next", "vote last", "vote top",
             "vote streak", "vote best", "vote today", "vote help",
             // resource-core の README（/resource は同じ 4 つの移動を選ぶ GUI なので除く）
             "main", "resource overworld", "resource nether", "resource end",
+            // Bolt の Wiki とソース（/bolt modify の player は /bolt edit と同じ動作なので除く）
+            "bolt lock private", "bolt lock display", "bolt lock deposit", "bolt lock withdrawal", "bolt lock public",
+            "bolt unlock", "bolt info",
+            "bolt edit add {player}", "bolt edit remove {player}",
+            "bolt modify add normal group {group}", "bolt modify remove normal group {group}",
+            "bolt modify add normal password {password}", "bolt modify remove normal password {password}",
+            "bolt trust add player {player}", "bolt trust remove player {player}", "bolt trust",
+            "bolt group create {group}", "bolt group add {group} {player}", "bolt group remove {group} {player}",
+            "bolt group list {group}", "bolt group delete {group}",
+            "bolt transfer {player}", "bolt requests list",
+            "bolt requests accept {player}", "bolt requests deny {player}", "bolt requests cancel {player}",
+            "bolt mode persist", "bolt mode nolock", "bolt mode nospam",
+            "bolt password {password}", "bolt help", "bolt help {command}",
         )
         assertEquals(expected.sorted(), runButtons.map { it.second.template.raw }.sorted())
     }
@@ -55,15 +58,15 @@ class DefaultMenuTest {
     @Test
     fun `admin commands are not exposed`() {
         val admin = runButtons.map { it.second.template.raw }
-            .filter { it.startsWith("resource-core") || it.startsWith("rc ") || it.startsWith("hubblock") }
+            .filter { it.startsWith("resource-core") || it.startsWith("rc ") || it.startsWith("hubblock") || it.startsWith("bolt admin") }
         assertEquals(emptyList(), admin)
     }
 
     @Test
-    fun `hub goes through the client and everything else runs on the server`() {
-        // /hub は Velocity のコマンドなので、サーバー側から実行しても届かない。
+    fun `velocity commands go through the client and everything else runs on the server`() {
+        // /hub、/stream、/rec は Velocity のコマンドなので、サーバー側から実行しても届かない。
         val client = runButtons.filter { it.second.via == RunVia.CLIENT }.map { it.second.template.raw }
-        assertEquals(listOf("hub"), client)
+        assertEquals(listOf("hub", "rec off", "rec on", "stream off", "stream on"), client.sorted())
     }
 
     @Test
@@ -86,7 +89,7 @@ class DefaultMenuTest {
     fun `angle brackets in lore are shown literally`() {
         // <名前> は MiniMessage のタグではないので、そのまま表示される。
         val plain = PlainTextComponentSerializer.plainText()
-        val lore = menu.screens.getValue("protection-access").buttons.getValue(10).lore
+        val lore = menu.screens.getValue("protection-access").buttons.getValue(11).lore
             .map { plain.serialize(MiniMessage.miniMessage().deserialize(it)) }
         assertTrue("/bolt edit add <名前>" in lore, lore.toString())
     }

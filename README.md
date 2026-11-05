@@ -2,7 +2,7 @@
 
 よく使うコマンドを GUI から実行できる、プレイヤー向けのメニュープラグインです。`/menu` で開きます。
 
-- サーバーのコマンド（[コマンド一覧](https://www.vcmc.jp/commands.html)）、資源ワールド（resource-core）、ハブ（vcmc-hubcommand）のプレイヤー向けコマンドをボタンにしています
+- サーバーのコマンド（[コマンド一覧](https://www.vcmc.jp/commands.html)）、チェスト保護（[Bolt](https://github.com/pop4959/Bolt)）、資源ワールド（resource-core）、ハブ（vcmc-hubcommand）のプレイヤー向けコマンドをボタンにしています
 - 管理者向けのコマンドは載せていません
 - 名前が必要なコマンドは、オンラインのプレイヤーの一覧から選ぶか、入力欄に入力します
 - ボタンの内容は `menu.yml` で変更できます。再起動は不要です
@@ -25,6 +25,13 @@
 1. [Releases](../../releases) から `vcmc-menu-<バージョン>.jar` をダウンロードして、`plugins/` に入れます。
 2. サーバーを起動します。`plugins/vcmc-menu/` に `menu.yml` と `messages.yml` が作られます。
 
+### 1.0.0 からの更新
+
+1.0.1 では `/stream` と `/rec` を `via: client` に変更し、チェスト保護の画面を作り直して、説明文も見直しました。`plugins/vcmc-menu/menu.yml` は jar を入れ替えても上書きされないので、次のどちらかをしてください。
+
+- `menu.yml` を編集していなければ、削除して `/menu reload` を実行します。
+- 編集している場合は、jar 内の `menu.yml` を見ながら変更を反映して、`/menu reload` を実行します。
+
 ## コマンドと権限
 
 | コマンド | 内容 | 権限 | 既定 |
@@ -40,9 +47,11 @@
 |---|---|
 | 最初の画面 | `/hub` `/sit` `/lay` `/crawl` `/spin` `/co i` `/gchest` と、下の各画面へのボタン |
 | 資源ワールド | `/main` `/resource overworld` `/resource nether` `/resource end` |
-| チェスト保護 | `/bolt lock`（なし、`public`、`display`、`deposit`、`withdrawal`）`/bolt unlock` `/bolt info` |
-| チェスト保護: アクセス管理 | `/bolt edit add\|remove <名前>` `/bolt modify add\|remove normal player <名前>` `/bolt trust add\|remove player <名前>` `/bolt transfer <名前>` |
-| チェスト保護: グループ管理 | `/bolt group create\|list\|delete <グループ名>` `/bolt group add\|remove <グループ名> <名前>` |
+| チェスト保護 | `/bolt lock private\|display\|deposit\|withdrawal\|public` `/bolt unlock` `/bolt info` |
+| チェスト保護: 使える人 | `/bolt edit add\|remove <名前>` `/bolt modify add\|remove normal group <グループ名>` `/bolt modify add\|remove normal password <パスワード>` |
+| チェスト保護: 信頼する人 | `/bolt trust add\|remove player <名前>` `/bolt trust` |
+| チェスト保護: グループ | `/bolt group create\|list\|delete <グループ名>` `/bolt group add\|remove <グループ名> <名前>` |
+| チェスト保護: 所有権の譲渡 | `/bolt transfer <名前>` `/bolt requests list` `/bolt requests accept\|deny\|cancel <名前>` |
 | チェスト保護: モード・その他 | `/bolt mode persist\|nolock\|nospam` `/bolt password <パスワード>` `/bolt help` `/bolt help <コマンド名>` |
 | 投票 | `/vote` `/votegui` `/vote shop` `/vote help` `/vote total\|next\|last\|top\|streak\|best\|today` |
 | 配信・撮影 | `/stream on\|off` `/rec on\|off` |
@@ -51,15 +60,20 @@
 
 - `/voteshop` は `/vote shop` の省略形です。
 - `/lobby` と `/l` は `/hub` の別名です。
+- `/bolt modify add|remove normal player <名前>` は `/bolt edit add|remove <名前>` と同じ動作です。
 - `/resource`（引数なし）は、資源ワールドの画面と同じ 4 つを選ぶ GUI を開くだけです。
 
-### `/hub` だけ確認ダイアログが出る理由
+### `/hub`、`/stream`、`/rec` で確認ダイアログが出る理由
 
-`/hub` は Velocity のコマンドです。サーバーから実行しても Velocity には届かないので、プレイヤーのクライアントから送る必要があります。クライアントに勝手にコマンドを送らせる手段はないので、確認ダイアログの「実行する」を押してもらいます。
+この 3 つは Velocity のコマンドです。サーバーから実行しても Velocity には届かないので、プレイヤーのクライアントから送る必要があります。クライアントに勝手にコマンドを送らせる手段はないので、確認ダイアログの「実行する」を押してもらいます。
 
-### `/bolt mode` の表記
+### チェスト保護とコマンド一覧のページの違い
 
-コマンド一覧のページには `/bolt mode no lock` と `/bolt mode no spam` とありますが、Bolt が受け付けるのは `nolock` と `nospam` です（`no` だけが引数として解釈され、無効なモードになります）。メニューでは動くほうを使っています。
+チェスト保護のボタンは、コマンド一覧のページではなく [Bolt の Wiki](https://github.com/pop4959/Bolt/wiki#commands) とソース（1.2.37）に合わせています。種類とモードの名前は、Bolt の日本語表示と同じです。
+
+- ページの `/bolt mode no lock` と `no spam` は無効なモードになるので、`nolock` と `nospam` を使っています。
+- `/bolt transfer` は、相手が承認して初めて譲渡されます（Bolt の既定の設定）。承認に使う `/bolt requests` のボタンを追加しました。
+- ページにない `/bolt trust`（一覧）と、グループやパスワードをブロックに設定する `/bolt modify` のボタンを追加しました。
 
 ## 名前の入力
 
@@ -105,7 +119,7 @@ Velocity など、このサーバーの外にあるコマンドには `via: clie
 ./gradlew test
 ```
 
-コマンドの雛形、入力値の検証、ページ分け、入力の順序、`menu.yml` の読み込みを確認します。同梱の `menu.yml` については、問題が出ないこと、サイトと README のコマンドが過不足なく載っていること、管理者向けのコマンドが無いこと、説明文のコマンドと実行内容が一致することを確認します。
+コマンドの雛形、入力値の検証、ページ分け、入力の順序、`menu.yml` の読み込みを確認します。同梱の `menu.yml` については、問題が出ないこと、サイト、Bolt、README のコマンドが過不足なく載っていること、管理者向けのコマンドが無いこと、説明文のコマンドと実行内容が一致することを確認します。
 
 ### 確認済みの項目
 
@@ -113,7 +127,7 @@ Velocity など、このサーバーの外にあるコマンドには `via: clie
 
 - `folia-api 26.3.build.6-alpha` に対してコンパイルできる
 - 自動テストがすべて通る
-- Bolt のソースと照らして、サブコマンドの書式と、実行後にブロックのクリックが必要かどうかが正しい
+- Bolt 1.2.37 のソースと Wiki に照らして、サブコマンドの書式と、実行後にブロックのクリックが必要かどうかが正しい
 - Folia 26.3 と Paper のソースを読んで、使っている API がプレイヤーのリージョンスレッドから呼べる
 
 ### ゲーム内で確認してほしい項目
@@ -133,13 +147,13 @@ Velocity など、このサーバーの外にあるコマンドには `via: clie
 
 - [ ] 最初の画面のボタンがすべて動く。`/gchest` が開く
 - [ ] `/votegui` と `/vote shop` で、それぞれの画面が開く
-- [ ] `/stream` と `/rec` が動く（提供元のプラグインを手元で確認できていません。Velocity 側のコマンドなら `menu.yml` で `via: client` を付けてください）
 - [ ] `/main` と `/resource <ワールド>` で移動できる。移動先のワールドでメニューを開ける
 
-`/hub`:
+Velocity のコマンド:
 
-- [ ] ボタンを押すと確認ダイアログが出て、「実行する」でロビーへ移動する
-- [ ] 「キャンセル」と Esc で最初の画面へ戻る
+- [ ] `/hub` のボタンを押すと確認ダイアログが出て、「実行する」でロビーへ移動する
+- [ ] `/stream on|off` と `/rec on|off` のボタンも確認ダイアログが出て、「実行する」で表示が切り替わる
+- [ ] 「キャンセル」と Esc で元の画面へ戻る
 
 チェスト保護:
 
@@ -148,6 +162,8 @@ Velocity など、このサーバーの外にあるコマンドには `via: clie
 - [ ] 別のリージョンにいるプレイヤーも一覧に出て、頭アイコンのスキンが表示される
 - [ ] 名前を選ぶと `/bolt edit add` などが動く。「名前を入力する」も動く
 - [ ] `/bolt group add` で、グループ名の入力 → プレイヤーの選択の順に進む
+- [ ] グループとパスワードをブロックに設定すると、ほかの人が使える
+- [ ] 所有権の譲渡を出すと相手に通知が届き、相手が「譲渡を承認」で受け取れる
 - [ ] 空白を含む値を入力すると、エラーを表示してダイアログを開き直す
 - [ ] ダイアログを閉じたあと、チェスト画面に戻らない
 
@@ -158,7 +174,7 @@ Velocity など、このサーバーの外にあるコマンドには `via: clie
 
 ## 既知の制限
 
-- **文字入力と `/hub` の確認に Dialog を使っています。** Minecraft 1.21.6 以降の機能なので、ViaBackwards などで古いクライアントから接続している人や Geyser の人には、正しく表示されない可能性があります。
+- **文字入力と、Velocity のコマンドの確認に Dialog を使っています。** Minecraft 1.21.6 以降の機能なので、ViaBackwards などで古いクライアントから接続している人や Geyser の人には、正しく表示されない可能性があります。
 - **ボタンを押すと、コマンドはサーバー側で実行します（`via: client` を除く）。** `PlayerCommandPreprocessEvent` は発生しないので、このイベントでコマンドを制限するプラグインの制限は効きません。
 - ボタンの ON / OFF の状態は表示しません。`/stream` や `/bolt mode` などの今の状態は、呼び出す先のプラグインのメッセージで確認してください。
 
@@ -170,7 +186,7 @@ Java 25 が必要です。
 ./gradlew build
 ```
 
-`build/libs/vcmc-menu-1.0.0.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
+`build/libs/vcmc-menu-1.0.1.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
 
 ## リリース
 
