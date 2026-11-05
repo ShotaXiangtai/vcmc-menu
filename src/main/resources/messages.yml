@@ -27,14 +27,14 @@ picker:
     - "<gray>指定するときに使います"
   empty-name: "<gray>ほかにオンラインのプレイヤーがいません"
   empty-lore:
-    - "<gray>下の「名前を入力する」から指定できます"
+    - "<gray>下の「名前を入力する」から指定してください"
 
 # 入力と確認のダイアログ
 dialog:
   submit: "決定"
   cancel: "キャンセル"
   # 入力値が使えないときに、ダイアログを開き直して表示します
-  invalid: "<red>空白を含まない <max> 文字以内で入力してください。"
+  invalid: "<red>空白を入れずに、<max> 文字以内で入力してください。"
   # via: client のボタンで表示します。<command> は実行するコマンドです
   client-run-body: "<gray>/<command> を実行します。"
   client-run-confirm: "実行する"

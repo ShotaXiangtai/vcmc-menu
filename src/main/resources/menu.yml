@@ -46,7 +46,7 @@ screens:
         icon: OAK_STAIRS
         name: "<green>座る"
         lore:
-          - "<gray>地面に座ります"
+          - "<gray>その場に座ります"
           - "<dark_gray>/sit"
         command: "sit"
       lay:
@@ -54,7 +54,7 @@ screens:
         icon: RED_BED
         name: "<green>横になる"
         lore:
-          - "<gray>地面に横になります"
+          - "<gray>その場で横になります"
           - "<dark_gray>/lay"
         command: "lay"
       crawl:
@@ -62,7 +62,7 @@ screens:
         icon: RABBIT_FOOT
         name: "<green>這う"
         lore:
-          - "<gray>地面を這って移動します"
+          - "<gray>地面を這って進みます"
           - "<dark_gray>/crawl"
         command: "crawl"
       spin:
@@ -76,9 +76,11 @@ screens:
       inspect:
         slot: 15
         icon: SPYGLASS
-        name: "<gold>ブロックの変更履歴"
+        name: "<gold>ブロックの変更履歴を調べる"
         lore:
-          - "<gray>確認モードの ON / OFF を切り替えます"
+          - "<gray>調査モードの ON / OFF を切り替えます"
+          - "<gray>ON の間にブロックをクリックすると、"
+          - "<gray>変更履歴が表示されます"
           - "<dark_gray>/co i"
         command: "co i"
       gchest:
@@ -95,29 +97,30 @@ screens:
         icon: IRON_PICKAXE
         name: "<yellow>資源ワールド"
         lore:
-          - "<gray>資源ワールドへの移動と"
-          - "<gray>元の場所へ戻る操作をまとめています"
+          - "<gray>資源ワールドへの移動と、"
+          - "<gray>元の場所へ戻る操作ができます"
         open: resource
       protection:
         slot: 30
         icon: CHEST
         name: "<yellow>チェスト保護"
         lore:
-          - "<gray>ブロックのロックやアクセス権を設定します"
+          - "<gray>チェストなどのブロックを保護して、"
+          - "<gray>使える人を設定できます"
         open: protection
       vote:
         slot: 32
         icon: PAPER
         name: "<yellow>投票"
         lore:
-          - "<gray>投票サイトや投票ショップを開きます"
+          - "<gray>投票サイトや投票ショップを開けます"
         open: vote
       media:
         slot: 34
         icon: ENDER_EYE
         name: "<yellow>配信・撮影"
         lore:
-          - "<gray>配信中や撮影中の表示を切り替えます"
+          - "<gray>配信中や撮影中の表示を切り替えられます"
         open: media
       close:
         slot: 40
@@ -134,7 +137,7 @@ screens:
         icon: COMPASS
         name: "<aqua>メインワールドへ戻る"
         lore:
-          - "<gray>資源ワールドに入る直前の場所へ戻ります"
+          - "<gray>資源ワールドに入る前にいた場所へ戻ります"
           - "<gray>資源ワールドにいるときだけ使えます"
           - "<dark_gray>/main"
         command: "main"
@@ -168,94 +171,115 @@ screens:
         name: "<yellow>戻る"
         open: main
 
+  # ここからチェスト保護です。Bolt の Wiki（https://github.com/pop4959/Bolt/wiki#commands）と
+  # 既定の config.yml に合わせています。種類とモードの名前は Bolt の日本語表示と同じです。
   protection:
     title: "<dark_gray>チェスト保護"
     rows: 5
     buttons:
-      lock:
+      private:
         slot: 10
         icon: IRON_DOOR
-        name: "<green>非公開で保護"
+        name: "<green>私有で保護"
         lore:
-          - "<gray>自分だけが使えるように保護します"
-          - "<yellow>実行後に対象ブロックをクリック"
-          - "<dark_gray>/bolt lock"
-        command: "bolt lock"
-      lock-public:
+          - "<gray>自分だけが使えるようにします"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt lock private"
+        command: "bolt lock private"
+      display:
         slot: 11
-        icon: OAK_DOOR
-        name: "<green>公開で保護"
-        lore:
-          - "<gray>誰でも使えますが、破壊はできません"
-          - "<yellow>実行後に対象ブロックをクリック"
-          - "<dark_gray>/bolt lock public"
-        command: "bolt lock public"
-      lock-display:
-        slot: 12
         icon: GLASS
         name: "<green>展示で保護"
         lore:
-          - "<gray>中身を見せるだけで、取り出せません"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>誰でも中を見られますが、"
+          - "<gray>出し入れはできません"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt lock display"
         command: "bolt lock display"
-      lock-deposit:
-        slot: 13
+      deposit:
+        slot: 12
         icon: HOPPER
-        name: "<green>投入専用で保護"
+        name: "<green>収納で保護"
         lore:
-          - "<gray>誰でも入れられますが、取り出せるのは自分だけです"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>誰でもアイテムを入れられますが、"
+          - "<gray>取り出せるのは自分だけです"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt lock deposit"
         command: "bolt lock deposit"
-      lock-withdrawal:
-        slot: 14
+      withdrawal:
+        slot: 13
         icon: DROPPER
-        name: "<green>取り出し専用で保護"
+        name: "<green>取り出しで保護"
         lore:
-          - "<gray>取り出しだけを許可します"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>誰でもアイテムを取り出せますが、"
+          - "<gray>入れることはできません"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt lock withdrawal"
         command: "bolt lock withdrawal"
+      public:
+        slot: 14
+        icon: OAK_DOOR
+        name: "<green>公共で保護"
+        lore:
+          - "<gray>誰でも使えますが、"
+          - "<gray>壊せるのは自分だけです"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt lock public"
+        command: "bolt lock public"
       unlock:
         slot: 15
         icon: TRIPWIRE_HOOK
         name: "<red>保護を解除"
         lore:
           - "<gray>ブロックの保護を解除します"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt unlock"
         command: "bolt unlock"
       info:
         slot: 16
         icon: BOOK
-        name: "<aqua>保護の情報を確認"
+        name: "<aqua>保護の情報を見る"
         lore:
-          - "<gray>所有者や作成日時、アクセスリストを表示します"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>所有者や、使える人の一覧を表示します"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt info"
         command: "bolt info"
       access:
         slot: 29
         icon: PLAYER_HEAD
-        name: "<yellow>アクセス管理"
+        name: "<yellow>使える人"
         lore:
-          - "<gray>ほかのプレイヤーの権限や所有権を変更します"
+          - "<gray>保護したブロックを使える人を設定します"
         open: protection-access
+      trust:
+        slot: 30
+        icon: EMERALD
+        name: "<yellow>信頼する人"
+        lore:
+          - "<gray>自分の保護をすべて使える人を設定します"
+        open: protection-trust
       group:
         slot: 31
         icon: BOOKSHELF
-        name: "<yellow>グループ管理"
+        name: "<yellow>グループ"
         lore:
-          - "<gray>プレイヤーのグループを作成、編集します"
+          - "<gray>プレイヤーのグループを管理します"
         open: protection-group
-      mode:
+      transfer:
+        slot: 32
+        icon: NAME_TAG
+        name: "<yellow>所有権の譲渡"
+        lore:
+          - "<gray>保護の所有権を別のプレイヤーに譲ります"
+        open: protection-transfer
+      other:
         slot: 33
         icon: COMPARATOR
         name: "<yellow>モード・その他"
         lore:
-          - "<gray>モードの切り替え、パスワード、ヘルプです"
-        open: protection-mode
+          - "<gray>モードの切り替えやパスワードの入力、"
+          - "<gray>ヘルプの表示ができます"
+        open: protection-other
       back:
         slot: 40
         icon: ARROW
@@ -263,98 +287,129 @@ screens:
         open: main
 
   protection-access:
-    title: "<dark_gray>チェスト保護: アクセス管理"
-    rows: 3
+    title: "<dark_gray>チェスト保護: 使える人"
+    rows: 4
     buttons:
-      edit-add:
-        slot: 10
-        icon: LIME_DYE
-        name: "<green>アクセス権を追加"
+      player-add:
+        slot: 11
+        icon: PLAYER_HEAD
+        name: "<green>プレイヤーを追加"
         lore:
-          - "<gray>プレイヤーにアクセス権を追加します"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>指定したプレイヤーが使えるようにします"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt edit add <名前>"
         command: "bolt edit add {player}"
         inputs:
           player:
             type: player
-            label: "アクセス権を追加する人"
-      edit-remove:
-        slot: 11
-        icon: RED_DYE
-        name: "<red>アクセス権を削除"
+            label: "追加するプレイヤー"
+      group-add:
+        slot: 13
+        icon: BOOKSHELF
+        name: "<green>グループを追加"
         lore:
-          - "<gray>プレイヤーのアクセス権を削除します"
-          - "<yellow>実行後に対象ブロックをクリック"
+          - "<gray>グループのメンバー全員が使えるようにします"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt modify add normal group <グループ名>"
+        command: "bolt modify add normal group {group}"
+        inputs:
+          group:
+            type: text
+            label: "追加するグループの名前"
+      password-add:
+        slot: 15
+        icon: TRIPWIRE_HOOK
+        name: "<green>パスワードを設定"
+        lore:
+          - "<gray>パスワードを知っている人が使えるようにします"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt modify add normal password <パスワード>"
+        command: "bolt modify add normal password {password}"
+        inputs:
+          password:
+            type: text
+            label: "設定するパスワード"
+      player-remove:
+        slot: 20
+        icon: SKELETON_SKULL
+        name: "<red>プレイヤーを外す"
+        lore:
+          - "<gray>指定したプレイヤーを使える人から外します"
+          - "<yellow>このあと対象のブロックをクリックしてください"
           - "<dark_gray>/bolt edit remove <名前>"
         command: "bolt edit remove {player}"
         inputs:
           player:
             type: player
-            label: "アクセス権を削除する人"
-      modify-add:
-        slot: 12
-        icon: LIME_CONCRETE
-        name: "<green>ACL にアクセス権を追加"
+            label: "外すプレイヤー"
+      group-remove:
+        slot: 22
+        icon: CHISELED_BOOKSHELF
+        name: "<red>グループを外す"
         lore:
-          - "<gray>ACL に通常のアクセス権を追加します"
-          - "<yellow>実行後に対象ブロックをクリック"
-          - "<dark_gray>/bolt modify add normal player <名前>"
-        command: "bolt modify add normal player {player}"
+          - "<gray>指定したグループを使える人から外します"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt modify remove normal group <グループ名>"
+        command: "bolt modify remove normal group {group}"
         inputs:
-          player:
-            type: player
-            label: "ACL に追加する人"
-      modify-remove:
-        slot: 13
-        icon: RED_CONCRETE
-        name: "<red>ACL からアクセス権を削除"
+          group:
+            type: text
+            label: "外すグループの名前"
+      password-remove:
+        slot: 24
+        icon: STRING
+        name: "<red>パスワードを解除"
         lore:
-          - "<gray>ACL からアクセス権を削除します"
-          - "<yellow>実行後に対象ブロックをクリック"
-          - "<dark_gray>/bolt modify remove normal player <名前>"
-        command: "bolt modify remove normal player {player}"
+          - "<gray>設定したパスワードを解除します"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt modify remove normal password <パスワード>"
+        command: "bolt modify remove normal password {password}"
         inputs:
-          player:
-            type: player
-            label: "ACL から削除する人"
-      trust-add:
-        slot: 14
-        icon: EMERALD
-        name: "<green>全保護へのアクセスを許可"
+          password:
+            type: text
+            label: "解除するパスワード"
+      back:
+        slot: 31
+        icon: ARROW
+        name: "<yellow>戻る"
+        open: protection
+
+  protection-trust:
+    title: "<dark_gray>チェスト保護: 信頼する人"
+    rows: 3
+    buttons:
+      add:
+        slot: 11
+        icon: LIME_DYE
+        name: "<green>信頼する人を追加"
         lore:
-          - "<gray>自分の保護すべてへのアクセスを許可します"
+          - "<gray>自分の保護をすべて使えるようにします"
           - "<dark_gray>/bolt trust add player <名前>"
         command: "bolt trust add player {player}"
         inputs:
           player:
             type: player
-            label: "全保護へのアクセスを許可する人"
-      trust-remove:
-        slot: 15
-        icon: REDSTONE
-        name: "<red>全保護へのアクセスを解除"
+            label: "信頼するプレイヤー"
+      remove:
+        slot: 13
+        icon: RED_DYE
+        name: "<red>信頼する人を外す"
         lore:
-          - "<gray>全保護へのアクセス許可を解除します"
+          - "<gray>信頼する人から外します"
           - "<dark_gray>/bolt trust remove player <名前>"
         command: "bolt trust remove player {player}"
         inputs:
           player:
             type: player
-            label: "アクセス許可を解除する人"
-      transfer:
-        slot: 16
-        icon: NAME_TAG
-        name: "<gold>所有権を譲渡"
+            label: "外すプレイヤー"
+      list:
+        slot: 15
+        icon: BOOK
+        name: "<aqua>信頼する人の一覧"
         lore:
-          - "<gray>保護の所有権を別のプレイヤーへ譲渡します"
-          - "<yellow>実行後に対象ブロックをクリック"
-          - "<dark_gray>/bolt transfer <名前>"
-        command: "bolt transfer {player}"
-        inputs:
-          player:
-            type: player
-            label: "所有権を譲渡する相手"
+          - "<gray>信頼する人の一覧を表示します"
+          - "<dark_gray>/bolt trust"
+        command: "bolt trust"
       back:
         slot: 22
         icon: ARROW
@@ -362,7 +417,7 @@ screens:
         open: protection
 
   protection-group:
-    title: "<dark_gray>チェスト保護: グループ管理"
+    title: "<dark_gray>チェスト保護: グループ"
     rows: 3
     buttons:
       create:
@@ -370,7 +425,8 @@ screens:
         icon: WRITABLE_BOOK
         name: "<green>グループを作成"
         lore:
-          - "<gray>グループを新しく作成します"
+          - "<gray>新しいグループを作成します"
+          - "<gray>ブロックに追加するときは「使える人」から行います"
           - "<dark_gray>/bolt group create <グループ名>"
         command: "bolt group create {group}"
         inputs:
@@ -388,25 +444,25 @@ screens:
         inputs:
           group:
             type: text
-            label: "追加先のグループの名前"
+            label: "メンバーを追加するグループの名前"
           player:
             type: player
-            label: "グループに追加する人"
+            label: "追加するプレイヤー"
       remove:
         slot: 13
         icon: RED_DYE
-        name: "<red>メンバーを削除"
+        name: "<red>メンバーを外す"
         lore:
-          - "<gray>グループからメンバーを削除します"
+          - "<gray>グループからメンバーを外します"
           - "<dark_gray>/bolt group remove <グループ名> <名前>"
         command: "bolt group remove {group} {player}"
         inputs:
           group:
             type: text
-            label: "削除元のグループの名前"
+            label: "メンバーを外すグループの名前"
           player:
             type: player
-            label: "グループから削除する人"
+            label: "外すプレイヤー"
       list:
         slot: 14
         icon: BOOK
@@ -437,33 +493,105 @@ screens:
         name: "<yellow>戻る"
         open: protection
 
-  protection-mode:
+  protection-transfer:
+    title: "<dark_gray>チェスト保護: 所有権の譲渡"
+    rows: 3
+    buttons:
+      transfer:
+        slot: 11
+        icon: NAME_TAG
+        name: "<gold>所有権を譲渡"
+        lore:
+          - "<gray>保護の所有権を別のプレイヤーに譲ります"
+          - "<gray>相手が承認すると譲渡されます"
+          - "<yellow>このあと対象のブロックをクリックしてください"
+          - "<dark_gray>/bolt transfer <名前>"
+        command: "bolt transfer {player}"
+        inputs:
+          player:
+            type: player
+            label: "譲渡する相手"
+      list:
+        slot: 12
+        icon: BOOK
+        name: "<aqua>譲渡リクエストの一覧"
+        lore:
+          - "<gray>届いたリクエストと、"
+          - "<gray>自分が出したリクエストを表示します"
+          - "<dark_gray>/bolt requests list"
+        command: "bolt requests list"
+      accept:
+        slot: 13
+        icon: LIME_DYE
+        name: "<green>譲渡を承認"
+        lore:
+          - "<gray>相手からの譲渡をまとめて受け取ります"
+          - "<dark_gray>/bolt requests accept <名前>"
+        command: "bolt requests accept {player}"
+        inputs:
+          player:
+            type: player
+            label: "譲渡を承認する相手"
+      deny:
+        slot: 14
+        icon: RED_DYE
+        name: "<red>譲渡を拒否"
+        lore:
+          - "<gray>相手からの譲渡をまとめて断ります"
+          - "<dark_gray>/bolt requests deny <名前>"
+        command: "bolt requests deny {player}"
+        inputs:
+          player:
+            type: player
+            label: "譲渡を拒否する相手"
+      cancel:
+        slot: 15
+        icon: BARRIER
+        name: "<red>譲渡を取り消す"
+        lore:
+          - "<gray>相手に出した譲渡をまとめて取り消します"
+          - "<dark_gray>/bolt requests cancel <名前>"
+        command: "bolt requests cancel {player}"
+        inputs:
+          player:
+            type: player
+            label: "譲渡を取り消す相手"
+      back:
+        slot: 22
+        icon: ARROW
+        name: "<yellow>戻る"
+        open: protection
+
+  protection-other:
     title: "<dark_gray>チェスト保護: モード・その他"
     rows: 3
     buttons:
       persist:
         slot: 10
         icon: REPEATER
-        name: "<green>連続操作モード"
+        name: "<green>連続モード"
         lore:
-          - "<gray>ON / OFF を切り替えます"
+          - "<gray>保護などの操作を、OFF にするまで続けて行えます"
+          - "<gray>押すたびに ON / OFF が切り替わります"
           - "<dark_gray>/bolt mode persist"
         command: "bolt mode persist"
       nolock:
         slot: 11
         icon: IRON_BARS
-        name: "<green>自動保護の一時無効"
+        name: "<green>手動保護モード"
         lore:
-          - "<gray>ON / OFF を切り替えます"
+          - "<gray>ブロックを置いても自動で保護されなくなります"
+          - "<gray>押すたびに ON / OFF が切り替わります"
           - "<dark_gray>/bolt mode nolock"
         # サイトの表記は「no lock」ですが、Bolt が受け付けるのは nolock です。
         command: "bolt mode nolock"
       nospam:
         slot: 12
         icon: FEATHER
-        name: "<green>操作メッセージの非表示"
+        name: "<green>通知非表示モード"
         lore:
-          - "<gray>ON / OFF を切り替えます"
+          - "<gray>操作時に出るメッセージを非表示にします"
+          - "<gray>押すたびに ON / OFF が切り替わります"
           - "<dark_gray>/bolt mode nospam"
         # サイトの表記は「no spam」ですが、Bolt が受け付けるのは nospam です。
         command: "bolt mode nospam"
@@ -472,7 +600,7 @@ screens:
         icon: GOLD_NUGGET
         name: "<gold>パスワードを入力"
         lore:
-          - "<gray>パスワードで保護されたブロックにアクセスします"
+          - "<gray>パスワードが設定されたブロックを使えるようにします"
           - "<dark_gray>/bolt password <パスワード>"
         command: "bolt password {password}"
         inputs:
@@ -484,7 +612,7 @@ screens:
         icon: KNOWLEDGE_BOOK
         name: "<aqua>ヘルプ"
         lore:
-          - "<gray>Bolt のヘルプを表示します"
+          - "<gray>Bolt のコマンドの一覧を表示します"
           - "<dark_gray>/bolt help"
         command: "bolt help"
       help-command:
@@ -492,7 +620,7 @@ screens:
         icon: BOOK
         name: "<aqua>コマンドごとのヘルプ"
         lore:
-          - "<gray>指定したコマンドの詳しいヘルプを表示します"
+          - "<gray>指定したコマンドの説明を表示します"
           - "<dark_gray>/bolt help <コマンド名>"
         command: "bolt help {command}"
         inputs:
@@ -522,7 +650,7 @@ screens:
         icon: CHEST_MINECART
         name: "<green>投票メニュー"
         lore:
-          - "<gray>投票メニューを GUI で開きます"
+          - "<gray>投票メニューを開きます"
           - "<dark_gray>/votegui"
         command: "votegui"
       shop:
@@ -530,15 +658,15 @@ screens:
         icon: EMERALD
         name: "<green>投票ショップ"
         lore:
-          - "<gray>獲得ポイントをアイテムと交換します"
+          - "<gray>投票ポイントをアイテムと交換します"
           - "<dark_gray>/vote shop"
         command: "vote shop"
       help:
         slot: 16
         icon: KNOWLEDGE_BOOK
-        name: "<aqua>ヘルプ"
+        name: "<aqua>投票のヘルプ"
         lore:
-          - "<gray>投票関連コマンドのヘルプを表示します"
+          - "<gray>投票コマンドのヘルプを表示します"
           - "<dark_gray>/vote help"
         command: "vote help"
       total:
@@ -546,31 +674,31 @@ screens:
         icon: GOLD_INGOT
         name: "<yellow>合計投票数"
         lore:
-          - "<gray>自分の合計投票数を確認します"
+          - "<gray>自分の合計投票数を表示します"
           - "<dark_gray>/vote total"
         command: "vote total"
       next:
         slot: 29
         icon: CLOCK
-        name: "<yellow>次の投票までの時間"
+        name: "<yellow>次の投票まで"
         lore:
-          - "<gray>次に投票できるまでの待ち時間を確認します"
+          - "<gray>次に投票できるまでの時間を表示します"
           - "<dark_gray>/vote next"
         command: "vote next"
       last:
         slot: 30
         icon: FILLED_MAP
-        name: "<yellow>最後に投票した日時"
+        name: "<yellow>前回の投票"
         lore:
-          - "<gray>最後に投票した日時を確認します"
+          - "<gray>最後に投票した日時を表示します"
           - "<dark_gray>/vote last"
         command: "vote last"
       top:
         slot: 31
         icon: GOLDEN_HELMET
-        name: "<yellow>投票者ランキング"
+        name: "<yellow>投票ランキング"
         lore:
-          - "<gray>投票者ランキングを表示します"
+          - "<gray>投票数のランキングを表示します"
           - "<dark_gray>/vote top"
         command: "vote top"
       streak:
@@ -578,7 +706,7 @@ screens:
         icon: BLAZE_POWDER
         name: "<yellow>連続投票の記録"
         lore:
-          - "<gray>連続投票の記録を確認します"
+          - "<gray>連続投票の記録を表示します"
           - "<dark_gray>/vote streak"
         command: "vote streak"
       best:
@@ -586,15 +714,15 @@ screens:
         icon: NETHER_STAR
         name: "<yellow>自己ベスト"
         lore:
-          - "<gray>過去の自己ベスト投票記録を確認します"
+          - "<gray>これまでの自己ベストの記録を表示します"
           - "<dark_gray>/vote best"
         command: "vote best"
       today:
         slot: 34
         icon: SUNFLOWER
-        name: "<yellow>本日の投票者"
+        name: "<yellow>今日の投票者"
         lore:
-          - "<gray>本日投票したプレイヤーの一覧を確認します"
+          - "<gray>今日投票したプレイヤーの一覧を表示します"
           - "<dark_gray>/vote today"
         command: "vote today"
       back:
@@ -607,38 +735,43 @@ screens:
     title: "<dark_gray>配信・撮影"
     rows: 3
     buttons:
+      # /stream と /rec は Velocity のコマンドです。サーバー側から実行しても届きません。
       stream-on:
         slot: 11
         icon: LIME_DYE
-        name: "<green>配信中の表示を ON"
+        name: "<green>配信中と表示する"
         lore:
           - "<gray>配信中であることを表示します"
           - "<dark_gray>/stream on"
         command: "stream on"
+        via: client
       stream-off:
         slot: 12
         icon: GRAY_DYE
-        name: "<gray>配信中の表示を OFF"
+        name: "<gray>配信中の表示を消す"
         lore:
           - "<gray>配信中の表示を解除します"
           - "<dark_gray>/stream off"
         command: "stream off"
+        via: client
       rec-on:
         slot: 14
         icon: RED_DYE
-        name: "<red>撮影中の表示を ON"
+        name: "<red>撮影中と表示する"
         lore:
-          - "<gray>動画撮影中であることを表示します"
+          - "<gray>動画を撮影中であることを表示します"
           - "<dark_gray>/rec on"
         command: "rec on"
+        via: client
       rec-off:
         slot: 15
         icon: GRAY_DYE
-        name: "<gray>撮影中の表示を OFF"
+        name: "<gray>撮影中の表示を消す"
         lore:
           - "<gray>撮影中の表示を解除します"
           - "<dark_gray>/rec off"
         command: "rec off"
+        via: client
       back:
         slot: 22
         icon: ARROW
