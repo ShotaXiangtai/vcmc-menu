@@ -1,0 +1,40 @@
+# メッセージはすべて MiniMessage 形式です。空文字にすると送信しません。
+# ボタンの文言は menu.yml にあります。
+
+prefix: "<dark_gray>[<aqua>メニュー</aqua>]</dark_gray> "
+
+common:
+  player-only: "<prefix><red>プレイヤーのみ実行できます。"
+
+reload:
+  ok: "<prefix><green>menu.yml と messages.yml を再読み込みしました。"
+  issues: "<prefix><yellow>再読み込みしましたが、<count> 件の問題があります。コンソールを確認してください。"
+
+# プレイヤーを選ぶ画面
+picker:
+  # <label> は menu.yml の inputs の label です
+  title: "<dark_gray><label> (<page>/<pages>)"
+  player-name: "<yellow><player>"
+  player-lore:
+    - "<gray>クリックで選択"
+  back-name: "<yellow>戻る"
+  back-lore: []
+  previous-name: "<white>前のページ"
+  next-name: "<white>次のページ"
+  manual-name: "<aqua>名前を入力する"
+  manual-lore:
+    - "<gray>一覧にいないプレイヤーを"
+    - "<gray>指定するときに使います"
+  empty-name: "<gray>ほかにオンラインのプレイヤーがいません"
+  empty-lore:
+    - "<gray>下の「名前を入力する」から指定できます"
+
+# 入力と確認のダイアログ
+dialog:
+  submit: "決定"
+  cancel: "キャンセル"
+  # 入力値が使えないときに、ダイアログを開き直して表示します
+  invalid: "<red>空白を含まない <max> 文字以内で入力してください。"
+  # via: client のボタンで表示します。<command> は実行するコマンドです
+  client-run-body: "<gray>/<command> を実行します。"
+  client-run-confirm: "実行する"

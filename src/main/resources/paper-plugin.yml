@@ -1,0 +1,15 @@
+name: vcmc-menu
+version: '${version}'
+main: jp.vcmc.menu.VcmcMenuPlugin
+api-version: '26.3'
+folia-supported: true
+description: よく使うコマンドを GUI から実行できるプレイヤー向けメニュー
+authors:
+  - vcmc
+permissions:
+  vcmcmenu.command.menu:
+    description: /menu でメニューを開く
+    default: true
+  vcmcmenu.admin.reload:
+    description: /menu reload で menu.yml と messages.yml を再読み込みする
+    default: op
