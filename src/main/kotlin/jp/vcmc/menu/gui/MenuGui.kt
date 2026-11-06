@@ -9,6 +9,7 @@ import jp.vcmc.menu.config.MenuDefinition
 import jp.vcmc.menu.config.MenuParser
 import jp.vcmc.menu.config.MenuScreen
 import jp.vcmc.menu.config.RunVia
+import jp.vcmc.menu.i18n.Language
 import jp.vcmc.menu.logic.Page
 import jp.vcmc.menu.logic.paginate
 import net.kyori.adventure.text.Component
@@ -26,7 +27,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 
 /**
- * メニューの画面とプレイヤー選択画面。インベントリは開くたびにプレイヤーごとに作る。
+ * メニューの画面とプレイヤー選択画面。インベントリは開くたびにプレイヤーごとに作るので、文面はそのプレイヤーの言語になる。
  * クリックイベントはプレイヤーを所有するリージョンで発火するので、他のリージョンのものには触らない。
  */
 class MenuGui(private val plugin: VcmcMenuPlugin) : Listener {
@@ -72,18 +73,24 @@ class MenuGui(private val plugin: VcmcMenuPlugin) : Listener {
 
     /** プレイヤーのリージョンで呼ぶこと。 */
     fun showScreen(player: Player, screenId: String) {
+        val language = Language.of(player)
         val menu = plugin.menu
         // 読み直しで画面が消えていたら最初の画面へ戻す。
         val screen = menu.screens[screenId] ?: menu.root
         val holder = Holder(ScreenView(screen))
-        val inv = Bukkit.createInventory(holder, screen.rows * MenuParser.SLOTS_PER_ROW, messages.parse(screen.title))
+        val inv = Bukkit.createInventory(
+            holder,
+            screen.rows * MenuParser.SLOTS_PER_ROW,
+            messages.parse(language, messages.screenTitle(language, screen)),
+        )
         holder.inv = inv
         fill(inv, 0 until inv.size, screen.filler)
-        screen.buttons.forEach { (slot, button) -> inv.setItem(slot, buttonItem(button)) }
+        screen.buttons.forEach { (slot, button) -> inv.setItem(slot, buttonItem(language, screen, button)) }
         player.openInventory(inv)
     }
 
     private fun showPicker(player: Player, flow: InputFlow, input: InputSpec, requestedPage: Int) {
+        val language = Language.of(player)
         val candidates = Bukkit.getOnlinePlayers()
             .filter { it.uniqueId != player.uniqueId && player.canSee(it) }
             .sortedBy { it.name.lowercase() }
@@ -93,31 +100,32 @@ class MenuGui(private val plugin: VcmcMenuPlugin) : Listener {
             holder,
             PICKER_SIZE,
             messages.text(
+                language,
                 "picker.title",
-                "label" to messages.parse(input.label),
+                "label" to messages.parse(language, messages.inputLabel(language, flow.returnTo, flow.button, input)),
                 "page" to Component.text(page.index + 1),
                 "pages" to Component.text(page.count),
             ),
         )
         holder.inv = inv
-        page.items.forEachIndexed { slot, other -> inv.setItem(slot, playerHead(other)) }
+        page.items.forEachIndexed { slot, other -> inv.setItem(slot, playerHead(language, other)) }
         if (candidates.isEmpty()) {
             inv.setItem(
                 PICKER_EMPTY_SLOT,
-                item(Material.PAPER, messages.itemNameAt("picker.empty-name"), messages.itemLoreAt("picker.empty-lore")),
+                item(Material.PAPER, messages.itemNameAt(language, "picker.empty-name"), messages.itemLoreAt(language, "picker.empty-lore")),
             )
         }
         fill(inv, PICKER_PAGE_SIZE until PICKER_SIZE, MenuParser.DEFAULT_FILLER)
         inv.setItem(
             PICKER_SLOT_BACK,
-            item(Material.ARROW, messages.itemNameAt("picker.back-name"), messages.itemLoreAt("picker.back-lore")),
+            item(Material.ARROW, messages.itemNameAt(language, "picker.back-name"), messages.itemLoreAt(language, "picker.back-lore")),
         )
         inv.setItem(
             PICKER_SLOT_MANUAL,
-            item(Material.NAME_TAG, messages.itemNameAt("picker.manual-name"), messages.itemLoreAt("picker.manual-lore")),
+            item(Material.NAME_TAG, messages.itemNameAt(language, "picker.manual-name"), messages.itemLoreAt(language, "picker.manual-lore")),
         )
-        if (page.hasPrevious) inv.setItem(PICKER_SLOT_PREVIOUS, item(Material.PAPER, messages.itemNameAt("picker.previous-name"), emptyList()))
-        if (page.hasNext) inv.setItem(PICKER_SLOT_NEXT, item(Material.PAPER, messages.itemNameAt("picker.next-name"), emptyList()))
+        if (page.hasPrevious) inv.setItem(PICKER_SLOT_PREVIOUS, item(Material.PAPER, messages.itemNameAt(language, "picker.previous-name"), emptyList()))
+        if (page.hasNext) inv.setItem(PICKER_SLOT_NEXT, item(Material.PAPER, messages.itemNameAt(language, "picker.next-name"), emptyList()))
         player.openInventory(inv)
     }
 
@@ -126,8 +134,12 @@ class MenuGui(private val plugin: VcmcMenuPlugin) : Listener {
         for (slot in slots) inv.setItem(slot, filler)
     }
 
-    private fun buttonItem(button: MenuButton): ItemStack =
-        item(button.icon, messages.itemName(button.name), button.lore.map { messages.itemName(it) })
+    private fun buttonItem(language: Language, screen: MenuScreen, button: MenuButton): ItemStack =
+        item(
+            button.icon,
+            messages.itemName(language, messages.buttonName(language, screen.id, button)),
+            messages.buttonLore(language, screen.id, button).map { messages.itemName(language, it) },
+        )
 
     private fun item(material: Material, name: Component, lore: List<Component>): ItemStack =
         ItemStack(material).apply {
@@ -138,11 +150,11 @@ class MenuGui(private val plugin: VcmcMenuPlugin) : Listener {
             }
         }
 
-    private fun playerHead(other: Player): ItemStack =
+    private fun playerHead(language: Language, other: Player): ItemStack =
         item(
             Material.PLAYER_HEAD,
-            messages.itemNameAt("picker.player-name", "player" to Component.text(other.name)),
-            messages.itemLoreAt("picker.player-lore"),
+            messages.itemNameAt(language, "picker.player-name", "player" to Component.text(other.name)),
+            messages.itemLoreAt(language, "picker.player-lore"),
         ).apply {
             editMeta(SkullMeta::class.java) { it.playerProfile = other.playerProfile }
         }
