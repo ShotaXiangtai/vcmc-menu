@@ -11,6 +11,7 @@ import io.papermc.paper.registry.data.dialog.input.DialogInput
 import io.papermc.paper.registry.data.dialog.type.DialogType
 import jp.vcmc.menu.VcmcMenuPlugin
 import jp.vcmc.menu.config.InputSpec
+import jp.vcmc.menu.i18n.Language
 import jp.vcmc.menu.logic.sanitizeArgument
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
@@ -39,20 +40,22 @@ class InputDialogs(private val plugin: VcmcMenuPlugin) : Listener {
         // チェスト画面の上に重ねると、ダイアログを閉じたときにチェスト画面へ戻ってしまう。
         player.closeInventory()
         pending[player.uniqueId] = Pending(flow, input)
+        val language = Language.of(player)
         val error = if (invalid) {
-            listOf(DialogBody.plainMessage(messages.text("dialog.invalid", "max" to Component.text(input.maxLength))))
+            listOf(DialogBody.plainMessage(messages.text(language, "dialog.invalid", "max" to Component.text(input.maxLength))))
         } else {
             emptyList()
         }
+        val label = messages.parse(language, messages.inputLabel(language, flow.returnTo, flow.button, input))
         show(
             player,
-            base(flow)
-                .body(loreBody(flow) + error)
-                .inputs(listOf(DialogInput.text(INPUT_KEY, messages.parse(input.label)).maxLength(input.maxLength).build()))
+            base(language, flow)
+                .body(loreBody(language, flow) + error)
+                .inputs(listOf(DialogInput.text(INPUT_KEY, label).maxLength(input.maxLength).build()))
                 .build(),
             DialogType.confirmation(
-                button("dialog.submit", DialogAction.customClick(Key.key(SUBMIT_ID), null)),
-                cancelButton(),
+                button(language, "dialog.submit", DialogAction.customClick(Key.key(SUBMIT_ID), null)),
+                cancelButton(language),
             ),
         )
     }
@@ -60,29 +63,32 @@ class InputDialogs(private val plugin: VcmcMenuPlugin) : Listener {
     /** ボタンを押すとクライアントがコマンドを送るので、プロキシのコマンドにも届く。プレイヤーのリージョンで呼ぶこと。 */
     fun showClientRun(player: Player, flow: InputFlow, line: String) {
         pending[player.uniqueId] = Pending(flow, null)
-        val notice = DialogBody.plainMessage(messages.text("dialog.client-run-body", "command" to Component.text(line)))
+        val language = Language.of(player)
+        val notice = DialogBody.plainMessage(messages.text(language, "dialog.client-run-body", "command" to Component.text(line)))
         show(
             player,
-            base(flow).body(listOf(notice)).build(),
+            base(language, flow).body(listOf(notice)).build(),
             DialogType.confirmation(
-                button("dialog.client-run-confirm", DialogAction.staticAction(ClickEvent.runCommand("/$line"))),
-                cancelButton(),
+                button(language, "dialog.client-run-confirm", DialogAction.staticAction(ClickEvent.runCommand("/$line"))),
+                cancelButton(language),
             ),
         )
     }
 
-    private fun base(flow: InputFlow): DialogBase.Builder =
-        DialogBase.builder(messages.parse(flow.button.name)).canCloseWithEscape(true).pause(false)
+    private fun base(language: Language, flow: InputFlow): DialogBase.Builder =
+        DialogBase.builder(messages.parse(language, messages.buttonName(language, flow.returnTo, flow.button)))
+            .canCloseWithEscape(true)
+            .pause(false)
 
-    private fun loreBody(flow: InputFlow): List<DialogBody> =
-        flow.button.lore.map { DialogBody.plainMessage(messages.parse(it)) }
+    private fun loreBody(language: Language, flow: InputFlow): List<DialogBody> =
+        messages.buttonLore(language, flow.returnTo, flow.button).map { DialogBody.plainMessage(messages.parse(language, it)) }
 
-    private fun button(textPath: String, action: DialogAction): ActionButton =
-        ActionButton.builder(messages.text(textPath)).action(action).build()
+    private fun button(language: Language, textPath: String, action: DialogAction): ActionButton =
+        ActionButton.builder(messages.text(language, textPath)).action(action).build()
 
     /** Esc で閉じたときもこのボタンの動作になる。 */
-    private fun cancelButton(): ActionButton =
-        button("dialog.cancel", DialogAction.customClick(Key.key(CANCEL_ID), null))
+    private fun cancelButton(language: Language): ActionButton =
+        button(language, "dialog.cancel", DialogAction.customClick(Key.key(CANCEL_ID), null))
 
     private fun show(player: Player, base: DialogBase, type: DialogType) {
         player.showDialog(Dialog.create { factory -> factory.empty().base(base).type(type) })
