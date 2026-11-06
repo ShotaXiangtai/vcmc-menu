@@ -30,11 +30,10 @@ jobs:
         id: jar
         run: echo "path=build/libs/vcmc-menu-${GITHUB_REF_NAME#v}.jar" >> "$GITHUB_OUTPUT"
 
+      # 本文は指定しない。body や generate_release_notes があると、Releases に書いたリリースノートが変わってしまう。
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
           name: vcmc-menu ${{ github.ref_name }} (Kotlin / Folia)
-          body: Folia / Paper player command menu GUI plugin (Kotlin)
           files: ${{ steps.jar.outputs.path }}
           fail_on_unmatched_files: true
-          generate_release_notes: true

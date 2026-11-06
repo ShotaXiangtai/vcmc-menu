@@ -220,4 +220,4 @@ Java 25 が必要です。
 
 ## リリース
 
-`build.gradle.kts` の `version` を上げてコミットし、`v<バージョン>` のタグを push してください。GitHub Actions がテストとビルドを実行して、Releases に jar を載せます。タグと `version` が違うときは失敗します。
+`build.gradle.kts` の `version` を上げてコミットし、`v<バージョン>` のタグを push してください。GitHub Actions がテストとビルドを実行して、Releases に jar を載せます。タグと `version` が違うときは失敗します。リリースノートは Releases の画面か `gh release create` で書いてください。GitHub Actions はノートを変更しません。
