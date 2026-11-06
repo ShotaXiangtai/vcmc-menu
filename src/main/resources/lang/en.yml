@@ -1,0 +1,520 @@
+# vcmc-menu: English (MiniMessage). Leave a message empty to not send it.
+prefix: "<dark_gray>[<aqua>Menu</aqua>]</dark_gray> "
+
+common:
+  player-only: "<prefix><red>Only players can run this."
+
+reload:
+  ok: "<prefix><green>Reloaded menu.yml, messages.yml and the lang folder."
+  issues: "<prefix><yellow>Reloaded, but there are <count> issue(s). Check the console."
+
+# Player selection screen
+picker:
+  # <label> is the label of the input
+  title: "<dark_gray><label> (<page>/<pages>)"
+  player-name: "<yellow><player>"
+  player-lore:
+    - "<gray>Click to select"
+  back-name: "<yellow>Back"
+  back-lore: []
+  previous-name: "<white>Previous page"
+  next-name: "<white>Next page"
+  manual-name: "<aqua>Enter a name"
+  manual-lore:
+    - "<gray>Use this to choose a player"
+    - "<gray>who is not in the list"
+  empty-name: "<gray>No other players are online"
+  empty-lore:
+    - "<gray>Use 'Enter a name' below"
+
+# Input and confirmation dialogs
+dialog:
+  submit: "OK"
+  cancel: "Cancel"
+  invalid: "<red>Enter up to <max> characters without spaces."
+  client-run-body: "<gray>Run /<command>?"
+  client-run-confirm: "Run"
+
+# Translations of menu.yml. The structure is the same as menu.yml.
+menu:
+  screens:
+    main:
+      title: "<dark_gray>Menu"
+      buttons:
+        hub:
+          name: "<aqua>Go to the hub"
+          lore:
+            - "<gray>Moves you to the hub (lobby)"
+            - "<dark_gray>/hub"
+        sit:
+          name: "<green>Sit"
+          lore:
+            - "<gray>Sit down where you are"
+            - "<dark_gray>/sit"
+        lay:
+          name: "<green>Lie down"
+          lore:
+            - "<gray>Lie down where you are"
+            - "<dark_gray>/lay"
+        crawl:
+          name: "<green>Crawl"
+          lore:
+            - "<gray>Crawl along the ground"
+            - "<dark_gray>/crawl"
+        spin:
+          name: "<green>Spin"
+          lore:
+            - "<gray>Spin around where you are"
+            - "<dark_gray>/spin"
+        inspect:
+          name: "<gold>Inspect block history"
+          lore:
+            - "<gray>Turns inspect mode ON / OFF"
+            - "<gray>While it is ON, click a block"
+            - "<gray>to see its change history"
+            - "<dark_gray>/co i"
+        gchest:
+          name: "<light_purple>Shared Chest"
+          lore:
+            - "<gray>Opens your own shared chest"
+            - "<gray>Same contents on every server"
+            - "<dark_gray>/gchest"
+        resource:
+          name: "<yellow>Resource Worlds"
+          lore:
+            - "<gray>Travel to the resource worlds"
+            - "<gray>and back to where you were"
+        protection:
+          name: "<yellow>Chest Protection"
+          lore:
+            - "<gray>Protect chests and other blocks"
+            - "<gray>and choose who can use them"
+        vote:
+          name: "<yellow>Vote"
+          lore:
+            - "<gray>Open voting sites and the vote shop"
+        media:
+          name: "<yellow>Streaming & Recording"
+          lore:
+            - "<gray>Show that you are streaming or recording"
+        close:
+          name: "<red>Close"
+
+    resource:
+      title: "<dark_gray>Resource Worlds"
+      buttons:
+        main-world:
+          name: "<aqua>Return to the main world"
+          lore:
+            - "<gray>Returns you to where you were"
+            - "<gray>before entering a resource world"
+            - "<gray>Only works in a resource world"
+            - "<dark_gray>/main"
+        overworld:
+          name: "<green>Resource Overworld"
+          lore:
+            - "<gray>Moves you to the spawn"
+            - "<dark_gray>/resource overworld"
+        nether:
+          name: "<red>Resource Nether"
+          lore:
+            - "<gray>Moves you to the spawn"
+            - "<dark_gray>/resource nether"
+        end:
+          name: "<light_purple>Resource End"
+          lore:
+            - "<gray>Moves you to the spawn"
+            - "<dark_gray>/resource end"
+        back:
+          name: "<yellow>Back"
+
+    protection:
+      title: "<dark_gray>Chest Protection"
+      buttons:
+        private:
+          name: "<green>Protect as Private"
+          lore:
+            - "<gray>Only you can use it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt lock private"
+        display:
+          name: "<green>Protect as Display"
+          lore:
+            - "<gray>Anyone can look inside,"
+            - "<gray>but cannot put in or take out items"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt lock display"
+        deposit:
+          name: "<green>Protect as Deposit"
+          lore:
+            - "<gray>Anyone can put items in,"
+            - "<gray>but only you can take them out"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt lock deposit"
+        withdrawal:
+          name: "<green>Protect as Withdrawal"
+          lore:
+            - "<gray>Anyone can take items out,"
+            - "<gray>but cannot put items in"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt lock withdrawal"
+        public:
+          name: "<green>Protect as Public"
+          lore:
+            - "<gray>Anyone can use it,"
+            - "<gray>but only you can break it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt lock public"
+        unlock:
+          name: "<red>Remove protection"
+          lore:
+            - "<gray>Removes protection from a block"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt unlock"
+        info:
+          name: "<aqua>View protection info"
+          lore:
+            - "<gray>Shows the owner and who can use it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt info"
+        access:
+          name: "<yellow>Who can use it"
+          lore:
+            - "<gray>Choose who can use your protected blocks"
+        trust:
+          name: "<yellow>Trusted players"
+          lore:
+            - "<gray>Choose who can use all your protections"
+        group:
+          name: "<yellow>Groups"
+          lore:
+            - "<gray>Manage groups of players"
+        transfer:
+          name: "<yellow>Transfer ownership"
+          lore:
+            - "<gray>Give a protection to another player"
+        other:
+          name: "<yellow>Modes & more"
+          lore:
+            - "<gray>Switch modes, enter passwords"
+            - "<gray>and view help"
+        back:
+          name: "<yellow>Back"
+
+    protection-access:
+      title: "<dark_gray>Chest Protection: Who can use it"
+      buttons:
+        player-add:
+          name: "<green>Add a player"
+          lore:
+            - "<gray>Lets the chosen player use it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt edit add <name>"
+          inputs:
+            player:
+              label: "Player to add"
+        group-add:
+          name: "<green>Add a group"
+          lore:
+            - "<gray>Lets all members of the group use it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt modify add normal group <group>"
+          inputs:
+            group:
+              label: "Name of the group to add"
+        password-add:
+          name: "<green>Set a password"
+          lore:
+            - "<gray>Lets anyone who knows the password use it"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt modify add normal password <password>"
+          inputs:
+            password:
+              label: "Password to set"
+        player-remove:
+          name: "<red>Remove a player"
+          lore:
+            - "<gray>Removes the chosen player from the list"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt edit remove <name>"
+          inputs:
+            player:
+              label: "Player to remove"
+        group-remove:
+          name: "<red>Remove a group"
+          lore:
+            - "<gray>Removes the chosen group from the list"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt modify remove normal group <group>"
+          inputs:
+            group:
+              label: "Name of the group to remove"
+        password-remove:
+          name: "<red>Remove the password"
+          lore:
+            - "<gray>Removes the password you set"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt modify remove normal password <password>"
+          inputs:
+            password:
+              label: "Password to remove"
+        back:
+          name: "<yellow>Back"
+
+    protection-trust:
+      title: "<dark_gray>Chest Protection: Trusted players"
+      buttons:
+        add:
+          name: "<green>Add a trusted player"
+          lore:
+            - "<gray>Lets them use all your protections"
+            - "<dark_gray>/bolt trust add player <name>"
+          inputs:
+            player:
+              label: "Player to trust"
+        remove:
+          name: "<red>Remove a trusted player"
+          lore:
+            - "<gray>Removes them from your trusted players"
+            - "<dark_gray>/bolt trust remove player <name>"
+          inputs:
+            player:
+              label: "Player to remove"
+        list:
+          name: "<aqua>List trusted players"
+          lore:
+            - "<gray>Shows your trusted players"
+            - "<dark_gray>/bolt trust"
+        back:
+          name: "<yellow>Back"
+
+    protection-group:
+      title: "<dark_gray>Chest Protection: Groups"
+      buttons:
+        create:
+          name: "<green>Create a group"
+          lore:
+            - "<gray>Creates a new group"
+            - "<gray>Add it to a block from 'Who can use it'"
+            - "<dark_gray>/bolt group create <group>"
+          inputs:
+            group:
+              label: "Name of the group to create"
+        add:
+          name: "<green>Add a member"
+          lore:
+            - "<gray>Adds a member to a group"
+            - "<dark_gray>/bolt group add <group> <name>"
+          inputs:
+            group:
+              label: "Name of the group to add a member to"
+            player:
+              label: "Player to add"
+        remove:
+          name: "<red>Remove a member"
+          lore:
+            - "<gray>Removes a member from a group"
+            - "<dark_gray>/bolt group remove <group> <name>"
+          inputs:
+            group:
+              label: "Name of the group to remove a member from"
+            player:
+              label: "Player to remove"
+        list:
+          name: "<aqua>List members"
+          lore:
+            - "<gray>Shows the members of a group"
+            - "<dark_gray>/bolt group list <group>"
+          inputs:
+            group:
+              label: "Name of the group to show"
+        delete:
+          name: "<red>Delete a group"
+          lore:
+            - "<gray>Deletes a group"
+            - "<dark_gray>/bolt group delete <group>"
+          inputs:
+            group:
+              label: "Name of the group to delete"
+        back:
+          name: "<yellow>Back"
+
+    protection-transfer:
+      title: "<dark_gray>Chest Protection: Transfer ownership"
+      buttons:
+        transfer:
+          name: "<gold>Transfer ownership"
+          lore:
+            - "<gray>Gives a protection to another player"
+            - "<gray>It transfers when they accept"
+            - "<yellow>Then click the target block"
+            - "<dark_gray>/bolt transfer <name>"
+          inputs:
+            player:
+              label: "Player to transfer to"
+        list:
+          name: "<aqua>List transfer requests"
+          lore:
+            - "<gray>Shows requests you received"
+            - "<gray>and requests you sent"
+            - "<dark_gray>/bolt requests list"
+        accept:
+          name: "<green>Accept transfers"
+          lore:
+            - "<gray>Accepts all transfers from a player"
+            - "<dark_gray>/bolt requests accept <name>"
+          inputs:
+            player:
+              label: "Player to accept from"
+        deny:
+          name: "<red>Deny transfers"
+          lore:
+            - "<gray>Denies all transfers from a player"
+            - "<dark_gray>/bolt requests deny <name>"
+          inputs:
+            player:
+              label: "Player to deny"
+        cancel:
+          name: "<red>Cancel transfers"
+          lore:
+            - "<gray>Cancels all transfers you sent to a player"
+            - "<dark_gray>/bolt requests cancel <name>"
+          inputs:
+            player:
+              label: "Player to cancel for"
+        back:
+          name: "<yellow>Back"
+
+    protection-other:
+      title: "<dark_gray>Chest Protection: Modes & more"
+      buttons:
+        persist:
+          name: "<green>Persist mode"
+          lore:
+            - "<gray>Keeps repeating actions like protecting"
+            - "<gray>until you turn it OFF"
+            - "<gray>Each press switches ON / OFF"
+            - "<dark_gray>/bolt mode persist"
+        nolock:
+          name: "<green>No Lock mode"
+          lore:
+            - "<gray>Blocks you place are no longer"
+            - "<gray>protected automatically"
+            - "<gray>Each press switches ON / OFF"
+            - "<dark_gray>/bolt mode nolock"
+        nospam:
+          name: "<green>No Spam mode"
+          lore:
+            - "<gray>Hides the messages shown when you act"
+            - "<gray>Each press switches ON / OFF"
+            - "<dark_gray>/bolt mode nospam"
+        password:
+          name: "<gold>Enter a password"
+          lore:
+            - "<gray>Lets you use a block protected by a password"
+            - "<dark_gray>/bolt password <password>"
+          inputs:
+            password:
+              label: "Password"
+        help:
+          name: "<aqua>Help"
+          lore:
+            - "<gray>Shows the list of Bolt commands"
+            - "<dark_gray>/bolt help"
+        help-command:
+          name: "<aqua>Help for a command"
+          lore:
+            - "<gray>Shows the description of a command"
+            - "<dark_gray>/bolt help <command>"
+          inputs:
+            command:
+              label: "Command name (lock, edit, group, etc.)"
+        back:
+          name: "<yellow>Back"
+
+    vote:
+      title: "<dark_gray>Vote"
+      buttons:
+        sites:
+          name: "<green>Voting sites"
+          lore:
+            - "<gray>Shows the list of voting sites"
+            - "<dark_gray>/vote"
+        gui:
+          name: "<green>Vote menu"
+          lore:
+            - "<gray>Opens the vote menu"
+            - "<dark_gray>/votegui"
+        shop:
+          name: "<green>Vote shop"
+          lore:
+            - "<gray>Trade vote points for items"
+            - "<dark_gray>/vote shop"
+        help:
+          name: "<aqua>Vote help"
+          lore:
+            - "<gray>Shows help for the vote commands"
+            - "<dark_gray>/vote help"
+        total:
+          name: "<yellow>Total votes"
+          lore:
+            - "<gray>Shows your total votes"
+            - "<dark_gray>/vote total"
+        next:
+          name: "<yellow>Next vote"
+          lore:
+            - "<gray>Shows the time until you can vote again"
+            - "<dark_gray>/vote next"
+        last:
+          name: "<yellow>Last vote"
+          lore:
+            - "<gray>Shows when you last voted"
+            - "<dark_gray>/vote last"
+        top:
+          name: "<yellow>Vote ranking"
+          lore:
+            - "<gray>Shows the vote ranking"
+            - "<dark_gray>/vote top"
+        streak:
+          name: "<yellow>Vote streak"
+          lore:
+            - "<gray>Shows your voting streak"
+            - "<dark_gray>/vote streak"
+        best:
+          name: "<yellow>Personal best"
+          lore:
+            - "<gray>Shows your best records so far"
+            - "<dark_gray>/vote best"
+        today:
+          name: "<yellow>Today's voters"
+          lore:
+            - "<gray>Shows the players who voted today"
+            - "<dark_gray>/vote today"
+        back:
+          name: "<yellow>Back"
+
+    media:
+      title: "<dark_gray>Streaming & Recording"
+      buttons:
+        stream-on:
+          name: "<green>Show as streaming"
+          lore:
+            - "<gray>Shows that you are streaming"
+            - "<dark_gray>/stream on"
+        stream-off:
+          name: "<gray>Stop showing as streaming"
+          lore:
+            - "<gray>Removes the streaming display"
+            - "<dark_gray>/stream off"
+        rec-on:
+          name: "<red>Show as recording"
+          lore:
+            - "<gray>Shows that you are recording video"
+            - "<dark_gray>/rec on"
+        rec-off:
+          name: "<gray>Stop showing as recording"
+          lore:
+            - "<gray>Removes the recording display"
+            - "<dark_gray>/rec off"
+        back:
+          name: "<yellow>Back"

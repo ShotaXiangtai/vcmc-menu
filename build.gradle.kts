@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "jp.vcmc"
-version = "1.0.1"
+version = "1.1.0"
 
 val foliaApiVersion = "26.3.build.6-alpha"
 

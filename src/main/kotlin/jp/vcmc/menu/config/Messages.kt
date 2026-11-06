@@ -1,5 +1,7 @@
 package jp.vcmc.menu.config
 
+import jp.vcmc.menu.i18n.Language
+import jp.vcmc.menu.i18n.Translations
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
@@ -12,11 +14,13 @@ import java.io.File
 import java.io.InputStreamReader
 
 /**
- * messages.yml の読み込みと MiniMessage への変換。不足しているキーは jar 内の既定値で補う。
+ * 受け取る人の言語で文面を作る。
+ * 日本語は messages.yml と menu.yml、ほかの言語は lang フォルダから読む。不足しているキーは jar 内の既定値で補う。
  * プレースホルダーは Component で受ける。プレイヤー名や入力値を MiniMessage として解釈させないため。
  */
 class Messages(private val plugin: JavaPlugin) {
     private val mini = MiniMessage.miniMessage()
+    private val translations = Translations(plugin)
 
     @Volatile
     private var config = YamlConfiguration()
@@ -41,11 +45,15 @@ class Messages(private val plugin: JavaPlugin) {
             loaded.setDefaults(defaults)
         }
         config = loaded
+        translations.reload()
     }
 
-    fun parse(template: String, vararg args: Pair<String, Component>): Component {
+    private fun raw(language: Language, path: String): String =
+        translations.string(language, path) ?: config.getString(path) ?: path
+
+    fun parse(language: Language, template: String, vararg args: Pair<String, Component>): Component {
         val resolvers = TagResolver.builder()
-            .resolver(Placeholder.parsed("prefix", config.getString("prefix") ?: ""))
+            .resolver(Placeholder.parsed("prefix", raw(language, "prefix")))
         args.forEach { (name, value) -> resolvers.resolver(Placeholder.component(name, value)) }
         return try {
             mini.deserialize(template, resolvers.build())
@@ -55,24 +63,43 @@ class Messages(private val plugin: JavaPlugin) {
         }
     }
 
-    fun text(path: String, vararg args: Pair<String, Component>): Component =
-        parse(config.getString(path) ?: path, *args)
+    fun text(language: Language, path: String, vararg args: Pair<String, Component>): Component =
+        parse(language, raw(language, path), *args)
 
     fun send(target: Audience, path: String, vararg args: Pair<String, Component>) {
-        val template = config.getString(path) ?: path
+        val language = Language.of(target)
+        val template = raw(language, path)
         if (template.isBlank()) return
-        target.sendMessage(parse(template, *args))
+        target.sendMessage(parse(language, template, *args))
     }
 
     /** アイテム名用。インベントリのアイテム名は既定で斜体になるので打ち消す。 */
-    fun itemName(template: String, vararg args: Pair<String, Component>): Component =
-        parse(template, *args).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+    fun itemName(language: Language, template: String, vararg args: Pair<String, Component>): Component =
+        parse(language, template, *args).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
 
-    fun itemNameAt(path: String, vararg args: Pair<String, Component>): Component =
-        itemName(config.getString(path) ?: path, *args)
+    fun itemNameAt(language: Language, path: String, vararg args: Pair<String, Component>): Component =
+        itemName(language, raw(language, path), *args)
 
-    fun itemLoreAt(path: String, vararg args: Pair<String, Component>): List<Component> =
-        config.getStringList(path).map { itemName(it, *args) }
+    fun itemLoreAt(language: Language, path: String, vararg args: Pair<String, Component>): List<Component> =
+        (translations.stringList(language, path) ?: config.getStringList(path)).map { itemName(language, it, *args) }
+
+    /** 画面のタイトル。翻訳が無ければ menu.yml の文面を使う。 */
+    fun screenTitle(language: Language, screen: MenuScreen): String =
+        translations.string(language, "menu.screens.${screen.id}.title") ?: screen.title
+
+    /** ボタンの名前。翻訳が無ければ menu.yml の文面を使う。 */
+    fun buttonName(language: Language, screenId: String, button: MenuButton): String =
+        translations.string(language, "${buttonPath(screenId, button)}.name") ?: button.name
+
+    /** ボタンの説明。翻訳が無ければ menu.yml の文面を使う。 */
+    fun buttonLore(language: Language, screenId: String, button: MenuButton): List<String> =
+        translations.stringList(language, "${buttonPath(screenId, button)}.lore") ?: button.lore
+
+    /** 入力欄の説明。翻訳が無ければ menu.yml の文面を使う。 */
+    fun inputLabel(language: Language, screenId: String, button: MenuButton, input: InputSpec): String =
+        translations.string(language, "${buttonPath(screenId, button)}.inputs.${input.key}.label") ?: input.label
+
+    private fun buttonPath(screenId: String, button: MenuButton) = "menu.screens.$screenId.buttons.${button.id}"
 
     private companion object {
         const val FILE_NAME = "messages.yml"

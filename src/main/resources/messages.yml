@@ -1,4 +1,6 @@
-# メッセージはすべて MiniMessage 形式です。空文字にすると送信しません。
+# 日本語のメッセージです。すべて MiniMessage 形式で、空文字にすると送信しません。
+# ほかの言語の文面は lang フォルダにあります。en.yml: English、zh_cn.yml: 简体中文、zh_tw.yml: 繁體中文（台灣）、zh_hk.yml: 繁體中文（香港）
+# プレイヤーのクライアントの言語設定に合わせて自動で切り替わります。
 # ボタンの文言は menu.yml にあります。
 
 prefix: "<dark_gray>[<aqua>メニュー</aqua>]</dark_gray> "
@@ -7,7 +9,7 @@ common:
   player-only: "<prefix><red>プレイヤーのみ実行できます。"
 
 reload:
-  ok: "<prefix><green>menu.yml と messages.yml を再読み込みしました。"
+  ok: "<prefix><green>menu.yml、messages.yml、lang フォルダを再読み込みしました。"
   issues: "<prefix><yellow>再読み込みしましたが、<count> 件の問題があります。コンソールを確認してください。"
 
 # プレイヤーを選ぶ画面

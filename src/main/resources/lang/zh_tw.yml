@@ -1,0 +1,517 @@
+# vcmc-menu：繁體中文（台灣），MiniMessage 格式。留空則不傳送該訊息。
+prefix: "<dark_gray>[<aqua>選單</aqua>]</dark_gray> "
+
+common:
+  player-only: "<prefix><red>僅限玩家執行。"
+
+reload:
+  ok: "<prefix><green>已重新載入 menu.yml、messages.yml 和 lang 資料夾。"
+  issues: "<prefix><yellow>已重新載入，但有 <count> 個問題。請查看主控台。"
+
+# 選擇玩家的畫面
+picker:
+  # <label> 是輸入項目的說明
+  title: "<dark_gray><label> (<page>/<pages>)"
+  player-name: "<yellow><player>"
+  player-lore:
+    - "<gray>點擊選擇"
+  back-name: "<yellow>返回"
+  back-lore: []
+  previous-name: "<white>上一頁"
+  next-name: "<white>下一頁"
+  manual-name: "<aqua>輸入名稱"
+  manual-lore:
+    - "<gray>用於指定不在清單中"
+    - "<gray>的玩家"
+  empty-name: "<gray>沒有其他在線上的玩家"
+  empty-lore:
+    - "<gray>請透過下方的「輸入名稱」指定"
+
+# 輸入和確認對話框
+dialog:
+  submit: "確定"
+  cancel: "取消"
+  invalid: "<red>請輸入 <max> 個字元以內，不要包含空格。"
+  client-run-body: "<gray>執行 /<command>。"
+  client-run-confirm: "執行"
+
+# menu.yml 的翻譯。結構與 menu.yml 相同。
+menu:
+  screens:
+    main:
+      title: "<dark_gray>選單"
+      buttons:
+        hub:
+          name: "<aqua>前往大廳"
+          lore:
+            - "<gray>移動到大廳（Lobby）"
+            - "<dark_gray>/hub"
+        sit:
+          name: "<green>坐下"
+          lore:
+            - "<gray>在原地坐下"
+            - "<dark_gray>/sit"
+        lay:
+          name: "<green>躺下"
+          lore:
+            - "<gray>在原地躺下"
+            - "<dark_gray>/lay"
+        crawl:
+          name: "<green>爬行"
+          lore:
+            - "<gray>貼著地面爬行"
+            - "<dark_gray>/crawl"
+        spin:
+          name: "<green>轉圈"
+          lore:
+            - "<gray>在原地轉圈"
+            - "<dark_gray>/spin"
+        inspect:
+          name: "<gold>查詢方塊變更紀錄"
+          lore:
+            - "<gray>切換調查模式的開 / 關"
+            - "<gray>開啟時點擊方塊，"
+            - "<gray>會顯示變更紀錄"
+            - "<dark_gray>/co i"
+        gchest:
+          name: "<light_purple>共用儲物箱"
+          lore:
+            - "<gray>開啟你專屬的共用儲物箱"
+            - "<gray>從任何伺服器開啟內容都相同"
+            - "<dark_gray>/gchest"
+        resource:
+          name: "<yellow>資源世界"
+          lore:
+            - "<gray>可以前往資源世界，"
+            - "<gray>也可以返回原本的位置"
+        protection:
+          name: "<yellow>儲物箱保護"
+          lore:
+            - "<gray>保護儲物箱等方塊，"
+            - "<gray>並設定可以使用的人"
+        vote:
+          name: "<yellow>投票"
+          lore:
+            - "<gray>可以開啟投票網站和投票商店"
+        media:
+          name: "<yellow>直播與錄影"
+          lore:
+            - "<gray>可以切換直播中和錄影中的顯示"
+        close:
+          name: "<red>關閉"
+
+    resource:
+      title: "<dark_gray>資源世界"
+      buttons:
+        main-world:
+          name: "<aqua>返回主要世界"
+          lore:
+            - "<gray>返回進入資源世界前所在的位置"
+            - "<gray>只能在資源世界中使用"
+            - "<dark_gray>/main"
+        overworld:
+          name: "<green>資源主世界"
+          lore:
+            - "<gray>移動到世界重生點"
+            - "<dark_gray>/resource overworld"
+        nether:
+          name: "<red>資源地獄"
+          lore:
+            - "<gray>移動到世界重生點"
+            - "<dark_gray>/resource nether"
+        end:
+          name: "<light_purple>資源終界"
+          lore:
+            - "<gray>移動到世界重生點"
+            - "<dark_gray>/resource end"
+        back:
+          name: "<yellow>返回"
+
+    protection:
+      title: "<dark_gray>儲物箱保護"
+      buttons:
+        private:
+          name: "<green>以私有方式保護"
+          lore:
+            - "<gray>只有你可以使用"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt lock private"
+        display:
+          name: "<green>以顯示方式保護"
+          lore:
+            - "<gray>任何人都可以查看內容，"
+            - "<gray>但不能存取物品"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt lock display"
+        deposit:
+          name: "<green>以寄存方式保護"
+          lore:
+            - "<gray>任何人都可以放入物品，"
+            - "<gray>但只有你可以取出"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt lock deposit"
+        withdrawal:
+          name: "<green>以取出方式保護"
+          lore:
+            - "<gray>任何人都可以取出物品，"
+            - "<gray>但不能放入"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt lock withdrawal"
+        public:
+          name: "<green>以公共方式保護"
+          lore:
+            - "<gray>任何人都可以使用，"
+            - "<gray>但只有你可以破壞"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt lock public"
+        unlock:
+          name: "<red>解除保護"
+          lore:
+            - "<gray>解除方塊的保護"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt unlock"
+        info:
+          name: "<aqua>查看保護資訊"
+          lore:
+            - "<gray>顯示擁有者和可以使用的人"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt info"
+        access:
+          name: "<yellow>可以使用的人"
+          lore:
+            - "<gray>設定可以使用受保護方塊的人"
+        trust:
+          name: "<yellow>信任的人"
+          lore:
+            - "<gray>設定可以使用你所有保護的人"
+        group:
+          name: "<yellow>群組"
+          lore:
+            - "<gray>管理玩家群組"
+        transfer:
+          name: "<yellow>轉讓擁有權"
+          lore:
+            - "<gray>將保護的擁有權轉讓給其他玩家"
+        other:
+          name: "<yellow>模式與其他"
+          lore:
+            - "<gray>可以切換模式、輸入密碼、"
+            - "<gray>查看說明"
+        back:
+          name: "<yellow>返回"
+
+    protection-access:
+      title: "<dark_gray>儲物箱保護：可以使用的人"
+      buttons:
+        player-add:
+          name: "<green>新增玩家"
+          lore:
+            - "<gray>讓指定的玩家可以使用"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt edit add <名稱>"
+          inputs:
+            player:
+              label: "要新增的玩家"
+        group-add:
+          name: "<green>新增群組"
+          lore:
+            - "<gray>讓群組內所有成員都可以使用"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt modify add normal group <群組名稱>"
+          inputs:
+            group:
+              label: "要新增的群組名稱"
+        password-add:
+          name: "<green>設定密碼"
+          lore:
+            - "<gray>讓知道密碼的人可以使用"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt modify add normal password <密碼>"
+          inputs:
+            password:
+              label: "要設定的密碼"
+        player-remove:
+          name: "<red>移除玩家"
+          lore:
+            - "<gray>從可以使用的人中移除指定的玩家"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt edit remove <名稱>"
+          inputs:
+            player:
+              label: "要移除的玩家"
+        group-remove:
+          name: "<red>移除群組"
+          lore:
+            - "<gray>從可以使用的人中移除指定的群組"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt modify remove normal group <群組名稱>"
+          inputs:
+            group:
+              label: "要移除的群組名稱"
+        password-remove:
+          name: "<red>解除密碼"
+          lore:
+            - "<gray>解除已設定的密碼"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt modify remove normal password <密碼>"
+          inputs:
+            password:
+              label: "要解除的密碼"
+        back:
+          name: "<yellow>返回"
+
+    protection-trust:
+      title: "<dark_gray>儲物箱保護：信任的人"
+      buttons:
+        add:
+          name: "<green>新增信任的人"
+          lore:
+            - "<gray>讓對方可以使用你所有的保護"
+            - "<dark_gray>/bolt trust add player <名稱>"
+          inputs:
+            player:
+              label: "要信任的玩家"
+        remove:
+          name: "<red>移除信任的人"
+          lore:
+            - "<gray>從信任的人中移除"
+            - "<dark_gray>/bolt trust remove player <名稱>"
+          inputs:
+            player:
+              label: "要移除的玩家"
+        list:
+          name: "<aqua>信任的人清單"
+          lore:
+            - "<gray>顯示信任的人清單"
+            - "<dark_gray>/bolt trust"
+        back:
+          name: "<yellow>返回"
+
+    protection-group:
+      title: "<dark_gray>儲物箱保護：群組"
+      buttons:
+        create:
+          name: "<green>建立群組"
+          lore:
+            - "<gray>建立新的群組"
+            - "<gray>要加到方塊上，請使用「可以使用的人」"
+            - "<dark_gray>/bolt group create <群組名稱>"
+          inputs:
+            group:
+              label: "要建立的群組名稱"
+        add:
+          name: "<green>新增成員"
+          lore:
+            - "<gray>將成員加入群組"
+            - "<dark_gray>/bolt group add <群組名稱> <名稱>"
+          inputs:
+            group:
+              label: "要新增成員的群組名稱"
+            player:
+              label: "要新增的玩家"
+        remove:
+          name: "<red>移除成員"
+          lore:
+            - "<gray>從群組移除成員"
+            - "<dark_gray>/bolt group remove <群組名稱> <名稱>"
+          inputs:
+            group:
+              label: "要移除成員的群組名稱"
+            player:
+              label: "要移除的玩家"
+        list:
+          name: "<aqua>成員清單"
+          lore:
+            - "<gray>顯示群組的成員"
+            - "<dark_gray>/bolt group list <群組名稱>"
+          inputs:
+            group:
+              label: "要顯示的群組名稱"
+        delete:
+          name: "<red>刪除群組"
+          lore:
+            - "<gray>刪除群組"
+            - "<dark_gray>/bolt group delete <群組名稱>"
+          inputs:
+            group:
+              label: "要刪除的群組名稱"
+        back:
+          name: "<yellow>返回"
+
+    protection-transfer:
+      title: "<dark_gray>儲物箱保護：轉讓擁有權"
+      buttons:
+        transfer:
+          name: "<gold>轉讓擁有權"
+          lore:
+            - "<gray>將保護的擁有權轉讓給其他玩家"
+            - "<gray>對方接受後就會完成轉讓"
+            - "<yellow>接下來請點擊目標方塊"
+            - "<dark_gray>/bolt transfer <名稱>"
+          inputs:
+            player:
+              label: "轉讓對象"
+        list:
+          name: "<aqua>轉讓請求清單"
+          lore:
+            - "<gray>顯示收到的請求"
+            - "<gray>和你發出的請求"
+            - "<dark_gray>/bolt requests list"
+        accept:
+          name: "<green>接受轉讓"
+          lore:
+            - "<gray>接受對方的所有轉讓"
+            - "<dark_gray>/bolt requests accept <名稱>"
+          inputs:
+            player:
+              label: "要接受轉讓的對象"
+        deny:
+          name: "<red>拒絕轉讓"
+          lore:
+            - "<gray>拒絕對方的所有轉讓"
+            - "<dark_gray>/bolt requests deny <名稱>"
+          inputs:
+            player:
+              label: "要拒絕轉讓的對象"
+        cancel:
+          name: "<red>取消轉讓"
+          lore:
+            - "<gray>取消你向對方發出的所有轉讓"
+            - "<dark_gray>/bolt requests cancel <名稱>"
+          inputs:
+            player:
+              label: "要取消轉讓的對象"
+        back:
+          name: "<yellow>返回"
+
+    protection-other:
+      title: "<dark_gray>儲物箱保護：模式與其他"
+      buttons:
+        persist:
+          name: "<green>持續模式"
+          lore:
+            - "<gray>可以連續進行保護等操作，直到關閉"
+            - "<gray>每按一次切換開 / 關"
+            - "<dark_gray>/bolt mode persist"
+        nolock:
+          name: "<green>關閉自動保護模式"
+          lore:
+            - "<gray>放置方塊時不再自動保護"
+            - "<gray>每按一次切換開 / 關"
+            - "<dark_gray>/bolt mode nolock"
+        nospam:
+          name: "<green>關閉提示訊息模式"
+          lore:
+            - "<gray>隱藏操作時顯示的訊息"
+            - "<gray>每按一次切換開 / 關"
+            - "<dark_gray>/bolt mode nospam"
+        password:
+          name: "<gold>輸入密碼"
+          lore:
+            - "<gray>讓你可以使用設有密碼的方塊"
+            - "<dark_gray>/bolt password <密碼>"
+          inputs:
+            password:
+              label: "密碼"
+        help:
+          name: "<aqua>說明"
+          lore:
+            - "<gray>顯示 Bolt 的指令清單"
+            - "<dark_gray>/bolt help"
+        help-command:
+          name: "<aqua>各指令的說明"
+          lore:
+            - "<gray>顯示指定指令的說明"
+            - "<dark_gray>/bolt help <指令名稱>"
+          inputs:
+            command:
+              label: "指令名稱（lock、edit、group 等）"
+        back:
+          name: "<yellow>返回"
+
+    vote:
+      title: "<dark_gray>投票"
+      buttons:
+        sites:
+          name: "<green>投票網站清單"
+          lore:
+            - "<gray>顯示投票網站清單"
+            - "<dark_gray>/vote"
+        gui:
+          name: "<green>投票選單"
+          lore:
+            - "<gray>開啟投票選單"
+            - "<dark_gray>/votegui"
+        shop:
+          name: "<green>投票商店"
+          lore:
+            - "<gray>用投票點數兌換物品"
+            - "<dark_gray>/vote shop"
+        help:
+          name: "<aqua>投票說明"
+          lore:
+            - "<gray>顯示投票指令的說明"
+            - "<dark_gray>/vote help"
+        total:
+          name: "<yellow>總投票數"
+          lore:
+            - "<gray>顯示你的總投票數"
+            - "<dark_gray>/vote total"
+        next:
+          name: "<yellow>距離下次投票"
+          lore:
+            - "<gray>顯示距離下次可以投票的時間"
+            - "<dark_gray>/vote next"
+        last:
+          name: "<yellow>上次投票"
+          lore:
+            - "<gray>顯示你最後投票的時間"
+            - "<dark_gray>/vote last"
+        top:
+          name: "<yellow>投票排行榜"
+          lore:
+            - "<gray>顯示投票數排行榜"
+            - "<dark_gray>/vote top"
+        streak:
+          name: "<yellow>連續投票紀錄"
+          lore:
+            - "<gray>顯示連續投票紀錄"
+            - "<dark_gray>/vote streak"
+        best:
+          name: "<yellow>個人最佳"
+          lore:
+            - "<gray>顯示你至今的個人最佳紀錄"
+            - "<dark_gray>/vote best"
+        today:
+          name: "<yellow>今日投票者"
+          lore:
+            - "<gray>顯示今天投票的玩家清單"
+            - "<dark_gray>/vote today"
+        back:
+          name: "<yellow>返回"
+
+    media:
+      title: "<dark_gray>直播與錄影"
+      buttons:
+        stream-on:
+          name: "<green>顯示為直播中"
+          lore:
+            - "<gray>顯示你正在直播"
+            - "<dark_gray>/stream on"
+        stream-off:
+          name: "<gray>取消直播中顯示"
+          lore:
+            - "<gray>解除直播中的顯示"
+            - "<dark_gray>/stream off"
+        rec-on:
+          name: "<red>顯示為錄影中"
+          lore:
+            - "<gray>顯示你正在錄製影片"
+            - "<dark_gray>/rec on"
+        rec-off:
+          name: "<gray>取消錄影中顯示"
+          lore:
+            - "<gray>解除錄影中的顯示"
+            - "<dark_gray>/rec off"
+        back:
+          name: "<yellow>返回"
