@@ -217,3 +217,7 @@ Java 25 が必要です。
 ```
 
 `build/libs/vcmc-menu-1.1.0.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
+
+## リリース
+
+`build.gradle.kts` の `version` を上げてコミットし、`v<バージョン>` のタグを push してください。GitHub Actions がテストとビルドを実行して、Releases に jar を載せます。タグと `version` が違うときは失敗します。リリースノートは Releases の画面か `gh release create` で書いてください。GitHub Actions はノートを変更しません。

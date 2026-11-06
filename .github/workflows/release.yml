@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v6
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      # -plain の jar は Kotlin 標準ライブラリを含まず、サーバーで動かないので載せない。
+      # タグと build.gradle.kts の version が違うとファイルが見つからず、リリースは失敗する。
+      - name: Select the jar
+        id: jar
+        run: echo "path=build/libs/vcmc-menu-${GITHUB_REF_NAME#v}.jar" >> "$GITHUB_OUTPUT"
+
+      # 本文は指定しない。body や generate_release_notes があると、Releases に書いたリリースノートが変わってしまう。
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: vcmc-menu ${{ github.ref_name }} (Kotlin / Folia)
+          files: ${{ steps.jar.outputs.path }}
+          fail_on_unmatched_files: true
