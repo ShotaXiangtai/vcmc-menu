@@ -94,6 +94,16 @@ screens:
           - "<gray>どのサーバーから開いても中身は同じです"
           - "<dark_gray>/gchest"
         command: "gchest"
+      enderchest:
+        slot: 22
+        icon: ENDER_CHEST
+        name: "<dark_purple>エンダーチェスト"
+        lore:
+          - "<gray>どこからでもエンダーチェストを開けます"
+          - "<gray>中身は設置したエンダーチェストと同じです"
+          - "<dark_gray>/enderchest"
+        # /enderchest は vcmc-enderchest のコマンドです
+        command: "enderchest"
       resource:
         slot: 28
         icon: IRON_PICKAXE

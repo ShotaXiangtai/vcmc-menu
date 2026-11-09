@@ -79,6 +79,12 @@ menu:
             - "<gray>打開你專屬的共用儲物箱"
             - "<gray>於任何伺服器打開，內容都相同"
             - "<dark_gray>/gchest"
+        enderchest:
+          name: "<dark_purple>終界箱"
+          lore:
+            - "<gray>隨時隨地打開終界箱"
+            - "<gray>內容與放置的終界箱相同"
+            - "<dark_gray>/enderchest"
         resource:
           name: "<yellow>資源世界"
           lore:
