@@ -88,12 +88,24 @@ class VcmcMenuPlugin : JavaPlugin() {
     private fun replaceOutdatedMenu(file: File) {
         val outdated = getResource(MENU_OUTDATED)?.use { OutdatedLangFiles.parse(String(it.readBytes(), Charsets.UTF_8)) }.orEmpty()
         try {
-            OutdatedLangFiles.moveAside(file, outdated[MENU_FILE].orEmpty())?.let { backup ->
+            val backup = OutdatedLangFiles.moveAside(file, outdated[MENU_FILE].orEmpty())
+            if (backup != null) {
                 logger.info("$MENU_FILE は以前の既定の内容のままだったので、新しい内容に置き換えます。以前の内容は ${backup.name} に残します。")
+                return
             }
         } catch (e: IOException) {
             logger.warning("$MENU_FILE を新しい内容に置き換えられませんでした: ${e.message}")
+            return
         }
+        // 古い menu.yml のままだと、追加したボタンや修正が反映されず、翻訳も当たらない。気付けるように知らせる。
+        if (file.isFile && !isBundledMenu(file)) {
+            logger.info("$MENU_FILE は編集されているので、そのまま使います。新しいボタンや修正は、jar 内の $MENU_FILE を見ながら反映してください。")
+        }
+    }
+
+    private fun isBundledMenu(file: File): Boolean {
+        val bundled = getResource(MENU_FILE)?.use { it.readBytes() } ?: return true
+        return OutdatedLangFiles.hash(file.readBytes()) == OutdatedLangFiles.hash(bundled)
     }
 
     private fun resolveIcon(name: String): Material? = Material.matchMaterial(name)?.takeIf { it.isItem && !it.isAir }
