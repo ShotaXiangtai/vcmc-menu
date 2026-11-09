@@ -25,6 +25,12 @@
 1. [Releases](../../releases) から `vcmc-menu-<バージョン>.jar` をダウンロードして、`plugins/` に入れます。
 2. サーバーを起動します。`plugins/vcmc-menu/` に `menu.yml`、`messages.yml`、`lang` フォルダが作られます。
 
+### 1.1.1 からの更新
+
+1.2.0 では、最初の画面にエンダーチェストのボタン（`/enderchest`）を追加しました。ボタンを使うには vcmc-enderchest が必要です。
+
+`menu.yml` を編集していなければ、起動時に新しい内容へ置き換え、以前の内容は `menu.yml.old` に残します。編集している場合はそのまま使うので、jar 内の `menu.yml` を見ながら `enderchest` のボタンを追加して、`/menu reload` を実行してください。
+
 ### 1.0.1 からの更新
 
 jar を入れ替えるだけで動きます。`menu.yml` と `messages.yml` はそのまま使えます。`menu.yml` を編集している場合は、「多言語対応」も確認してください。
@@ -49,7 +55,7 @@ jar を入れ替えるだけで動きます。`menu.yml` と `messages.yml` は�
 
 | 画面 | コマンド |
 |---|---|
-| 最初の画面 | `/hub` `/sit` `/lay` `/crawl` `/spin` `/co i` `/gchest` と、下の各画面へのボタン |
+| 最初の画面 | `/hub` `/sit` `/lay` `/crawl` `/spin` `/co i` `/gchest` `/enderchest` と、下の各画面へのボタン |
 | 資源ワールド | `/main` `/resource overworld` `/resource nether` `/resource end` |
 | チェスト保護 | `/bolt lock private\|display\|deposit\|withdrawal\|public` `/bolt unlock` `/bolt info` |
 | チェスト保護: 使える人 | `/bolt edit add\|remove <名前>` `/bolt modify add\|remove normal group <グループ名>` `/bolt modify add\|remove normal password <パスワード>` |
@@ -204,6 +210,11 @@ Velocity のコマンド:
 - [ ] クライアントの言語を変えると、画面のタイトル、ボタン、ダイアログ、メッセージが切り替わる
 - [ ] 翻訳の文面が長すぎて、説明の表示が崩れない
 
+1.2.0 の更新:
+
+- [ ] 以前の既定のままの `menu.yml` が起動時に置き換わり、エンダーチェストのボタンが出る
+- [ ] エンダーチェストのボタンで、vcmc-enderchest の画面が開く
+
 ## 既知の制限
 
 - **文字入力と、Velocity のコマンドの確認に Dialog を使っています。** Minecraft 1.21.6 以降の機能なので、ViaBackwards などで古いクライアントから接続している人や Geyser の人には、正しく表示されない可能性があります。
@@ -218,7 +229,7 @@ Java 25 が必要です。
 ./gradlew build
 ```
 
-`build/libs/vcmc-menu-1.1.1.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
+`build/libs/vcmc-menu-1.2.0.jar` が生成されます（Kotlin 標準ライブラリを同梱）。
 
 ## リリース
 

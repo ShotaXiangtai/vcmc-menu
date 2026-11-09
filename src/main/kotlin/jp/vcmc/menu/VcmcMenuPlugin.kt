@@ -12,7 +12,9 @@ import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Entity
 import org.bukkit.plugin.java.JavaPlugin
+import jp.vcmc.menu.i18n.OutdatedLangFiles
 import java.io.File
+import java.io.IOException
 import java.io.InputStreamReader
 
 class VcmcMenuPlugin : JavaPlugin() {
@@ -54,6 +56,7 @@ class VcmcMenuPlugin : JavaPlugin() {
 
     private fun loadMenu(): List<ConfigIssue> {
         val file = File(dataFolder, MENU_FILE)
+        replaceOutdatedMenu(file)
         if (!file.exists()) saveResource(MENU_FILE, false)
         val parsed = try {
             MenuParser(::resolveIcon).parse(YamlConfiguration().apply { load(file) })
@@ -78,9 +81,25 @@ class VcmcMenuPlugin : JavaPlugin() {
         return requireNotNull(MenuParser(::resolveIcon).parse(yaml).definition) { "既定の $MENU_FILE が不正です" }
     }
 
+    /**
+     * menu.yml が以前のリリースの既定の内容のままなら、脇へ移して新しい既定の内容をコピーし直す。
+     * jar を入れ替えても menu.yml は上書きされないので、こうしないと追加したボタンが出ない。編集されたものはそのまま使う。
+     */
+    private fun replaceOutdatedMenu(file: File) {
+        val outdated = getResource(MENU_OUTDATED)?.use { OutdatedLangFiles.parse(String(it.readBytes(), Charsets.UTF_8)) }.orEmpty()
+        try {
+            OutdatedLangFiles.moveAside(file, outdated[MENU_FILE].orEmpty())?.let { backup ->
+                logger.info("$MENU_FILE は以前の既定の内容のままだったので、新しい内容に置き換えます。以前の内容は ${backup.name} に残します。")
+            }
+        } catch (e: IOException) {
+            logger.warning("$MENU_FILE を新しい内容に置き換えられませんでした: ${e.message}")
+        }
+    }
+
     private fun resolveIcon(name: String): Material? = Material.matchMaterial(name)?.takeIf { it.isItem && !it.isAir }
 
     private companion object {
         const val MENU_FILE = "menu.yml"
+        const val MENU_OUTDATED = "menu-outdated.txt"
     }
 }

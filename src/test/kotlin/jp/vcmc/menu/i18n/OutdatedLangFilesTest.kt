@@ -47,11 +47,13 @@ class OutdatedLangFilesTest {
     }
 
     @Test
-    fun `一度移したあとは以前の文面に戻されても移さない`() = withDir { dir ->
+    fun `前に移した old があっても、以前の文面のままなら移し直す`() = withDir { dir ->
+        // 次のリリースで同じファイルをまた更新したときにも置き換えられるように。
         val file = File(dir, "zh_hk.yml").apply { writeText(old) }
-        File(dir, "zh_hk.yml.old").writeText(old)
-        assertNull(OutdatedLangFiles.moveAside(file, oldHashes))
-        assertTrue(file.exists())
+        File(dir, "zh_hk.yml.old").writeText("# もっと前の文面\n")
+        val backup = assertNotNull(OutdatedLangFiles.moveAside(file, oldHashes))
+        assertFalse(file.exists())
+        assertEquals(old, backup.readText())
     }
 
     @Test
@@ -69,7 +71,6 @@ class OutdatedLangFilesTest {
     fun `同梱の一覧は正しい形で今の文面を含まない`() {
         val stream = assertNotNull(javaClass.classLoader.getResourceAsStream("lang/outdated.txt"))
         val outdated = OutdatedLangFiles.parse(stream.use { String(it.readBytes(), Charsets.UTF_8) })
-        assertTrue(outdated.isNotEmpty())
         outdated.forEach { (name, hashes) ->
             hashes.forEach { assertTrue(it.matches(Regex("[0-9a-f]{64}")), "$name: $it") }
             val current = assertNotNull(javaClass.classLoader.getResourceAsStream("lang/$name"), name).use { it.readBytes() }

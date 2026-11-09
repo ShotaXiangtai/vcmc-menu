@@ -1,0 +1,6 @@
+# 以前のリリースの既定の menu.yml（改行コードを除いた SHA-256）。
+# サーバーの menu.yml がこのどれかと同じなら、編集されていないので新しい既定の内容に置き換える。
+# menu.yml を変えたときは、前のリリースの menu.yml のハッシュをここに足す。
+menu.yml e5ce0923cc3729b302dec414680f716eae8cb6079cbf3a6618abd1210696768b # 1.0.0
+menu.yml 61565d06953e8dfb65f3fd6eb1f253a5fc9d69f23f9f3c45e8e008d6e70b1acb # 1.0.1
+menu.yml 05cf6be3eea6736cc757cc1c21fe162a58e51926057f1b0414c9e580ccf871e7 # 1.1.0、1.1.1

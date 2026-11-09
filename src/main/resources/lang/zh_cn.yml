@@ -79,6 +79,12 @@ menu:
             - "<gray>打开你专属的共享箱子"
             - "<gray>从任何服务器打开内容都相同"
             - "<dark_gray>/gchest"
+        enderchest:
+          name: "<dark_purple>末影箱"
+          lore:
+            - "<gray>随时随地打开末影箱"
+            - "<gray>内容与放置的末影箱相同"
+            - "<dark_gray>/enderchest"
         resource:
           name: "<yellow>资源世界"
           lore:

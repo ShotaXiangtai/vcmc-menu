@@ -79,6 +79,12 @@ menu:
             - "<gray>Opens your own shared chest"
             - "<gray>Same contents on every server"
             - "<dark_gray>/gchest"
+        enderchest:
+          name: "<dark_purple>Ender Chest"
+          lore:
+            - "<gray>Open your ender chest from anywhere"
+            - "<gray>Same contents as a placed ender chest"
+            - "<dark_gray>/enderchest"
         resource:
           name: "<yellow>Resource Worlds"
           lore:

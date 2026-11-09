@@ -2,13 +2,15 @@ package jp.vcmc.menu.i18n
 
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.security.MessageDigest
 import java.util.HexFormat
 
 /**
- * 以前のリリースの既定の文面のまま残っている lang のファイルを見分ける。
- * lang のファイルは一度コピーするとそちらが優先されるので、jar の文面を変えてもサーバーには反映されない。
- * 編集されていないファイルだけを脇へ移して、新しい文面をコピーし直せるようにする。
+ * 以前のリリースの既定の内容のまま残っているファイルを見分ける。
+ * lang などのファイルは一度コピーするとそちらが優先されるので、jar の内容を変えてもサーバーには反映されない。
+ * 編集されていないファイルだけを脇へ移して、新しい内容をコピーし直せるようにする。
  */
 object OutdatedLangFiles {
     /** 改行コードの違いを無視した SHA-256。jar を Windows で作るか Linux で作るかで改行コードが変わる。 */
@@ -29,14 +31,18 @@ object OutdatedLangFiles {
             .mapValues { it.value.toSet() }
 
     /**
-     * file が以前の既定の文面（outdated のどれか）と同じなら、名前の後ろに .old を付けて移し、移した先を返す。
-     * .old がすでにあるときは置き換え済みなので何もしない。管理者が以前の文面に戻しても、また置き換えないため。
+     * file が以前の既定の内容（outdated のどれか）と同じなら、名前の後ろに .old を付けて移し、移した先を返す。
+     * .old がすでにあれば上書きする。前に置き換えたときの、以前の既定の内容なので失うものはない。
      */
     fun moveAside(file: File, outdated: Set<String>): File? {
         if (outdated.isEmpty() || !file.isFile) return null
+        if (hash(file.readBytes()) !in outdated) return null
         val backup = File(file.parentFile, "${file.name}.old")
-        if (backup.exists() || hash(file.readBytes()) !in outdated) return null
-        if (!file.renameTo(backup)) throw IOException("${file.name} を ${backup.name} へ移せませんでした")
+        try {
+            Files.move(file.toPath(), backup.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: IOException) {
+            throw IOException("${file.name} を ${backup.name} へ移せませんでした: ${e.message}", e)
+        }
         return backup
     }
 }

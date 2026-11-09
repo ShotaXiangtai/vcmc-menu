@@ -6,7 +6,9 @@ import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.InputStreamReader
 import kotlin.test.Test
+import jp.vcmc.menu.i18n.OutdatedLangFiles
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -36,6 +38,8 @@ class DefaultMenuTest {
             "stream on", "stream off", "rec on", "rec off",
             "vote", "votegui", "vote shop", "vote total", "vote next", "vote last", "vote top",
             "vote streak", "vote best", "vote today", "vote help",
+            // vcmc-enderchest の README
+            "enderchest",
             // resource-core の README（/resource は同じ 4 つの移動を選ぶ GUI なので除く）
             "main", "resource overworld", "resource nether", "resource end",
             // Bolt の Wiki とソース（/bolt modify の player は /bolt edit と同じ動作なので除く）
@@ -53,6 +57,19 @@ class DefaultMenuTest {
             "bolt password {password}", "bolt help", "bolt help {command}",
         )
         assertEquals(expected.sorted(), runButtons.map { it.second.template.raw }.sorted())
+    }
+
+    @Test
+    fun `the list of outdated menus is valid and does not contain the current menu`() {
+        // サーバーの menu.yml が以前の既定のままなら、起動時に新しい既定の内容へ置き換える。
+        val stream = assertNotNull(javaClass.classLoader.getResourceAsStream("menu-outdated.txt"))
+        val outdated = OutdatedLangFiles.parse(stream.use { String(it.readBytes(), Charsets.UTF_8) })
+        assertEquals(setOf("menu.yml"), outdated.keys)
+        val hashes = outdated.getValue("menu.yml")
+        assertTrue(hashes.isNotEmpty())
+        hashes.forEach { assertTrue(it.matches(Regex("[0-9a-f]{64}")), it) }
+        val current = assertNotNull(javaClass.classLoader.getResourceAsStream("menu.yml")).use { it.readBytes() }
+        assertFalse(OutdatedLangFiles.hash(current) in hashes)
     }
 
     @Test
